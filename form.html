@@ -5,6 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Bug Report Form</title>
+  <link rel="stylesheet" type="text/css" href="form.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -13,7 +14,7 @@
 <body>
   <!-- Navigation Bar setup -->
   <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a class="navbar-brand" href="#">SCU Bug Reporter</a>
+    <a class="navbar-brand" style="color: #b30738" href="#">SCU IT</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -37,14 +38,12 @@
   </nav>
 
   <!-- Form Layout -->
+  <div class= "page-header">
+    <h3 class="IT">Information Technology</h3>
+    <h1>Bug Report Form</h1>
+  </div>
   <div class="container">
     <form class="needs-validation" novalidate>
-      <div class="col-md-12">
-        <div class= "page-header">
-          <h1><b>Bug Report Form</b></h1>
-          <p> Follow the prompts to submit a bug to fix by the SCU IT Department!</p>
-        </div>
-      </div>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" placeholder="Email (to contact)" required>
@@ -98,7 +97,7 @@
       </div>
 
       <div class="center-block">
-        <button type="submit" class="btn btn-primary col-md-4 col-md-offset-4" onclick="submitBug()">Submit Bug</button>
+        <button type="submit" class="btn col-md-4 col-md-offset-4" onclick="submitBug()">Submit Bug</button>
       </div>
   </form>
 </div>
@@ -115,12 +114,10 @@
       }
     }
     var desc = document.getElementById("bugDesc").value;
-
     console.log(contact);
     console.log(name);
     console.log(type);
     console.log(desc);
-
   }
   (function() {
   'use strict';
