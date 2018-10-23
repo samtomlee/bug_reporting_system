@@ -11,6 +11,84 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 </head>
 <body>
-  
+  <!-- Navigation Bar setup -->
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" href="#">SCU Bug Reporter</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="form.html">Bug Report Form</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="history.html">Bug History</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="col-md-12">
+      <div class= "page-header">
+        <h1><b>Manager</b></h1>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-8">
+        <!-- Table of Bugs -->
+      </div>
+      <div class="col-md-4">
+        <!-- Column of Manager specific functions -->
+        <h4><b>Manager Functions</b></h4>
+        <form>
+          <div class="form-group">
+            <label for="assignee">Bug Assignee</label>
+            <!-- to be populated from the SQL database-->
+            <select class="form-control" id="assignee">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="center-block">
+            <button type="submit" class="btn btn-primary">Assign Bug</button>
+          </div>
+        </form>
+
+        <form>
+          <div class="form-group">
+            <label for="changed-status">Bug Status</label>
+            <!-- to be populated from the SQL database-->
+            <select class="form-control" id="changed-status">
+              <option selected>Choose...</option>
+              <option>Replicated</option>
+              <option>Tested</option>
+              <option>Fixed</option>
+              <option>Deleted</option>
+            </select>
+          </div>
+          <div class="center-block">
+            <button type="submit" class="btn btn-primary">Change Status</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+
+  </script>
+
 </body>
 </html>
