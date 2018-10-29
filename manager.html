@@ -46,6 +46,7 @@
     <div class="row">
       <div class="col-md-8">
         <!-- Table of Bugs -->
+
       </div>
       <div class="col-md-4">
         <!-- Column of Manager specific functions -->
@@ -63,7 +64,7 @@
             </select>
           </div>
           <div class="center-block">
-            <button type="submit" class="btn btn-primary" onclick="assignBug()">Assign Bug</button>
+            <button type="submit" class="btn" onclick="assignBug()">Assign Bug</button>
           </div>
         </form>
         <br>
@@ -80,7 +81,7 @@
             </select>
           </div>
           <div class="center-block">
-            <button type="submit" class="btn btn-primary" onclick="changeStatus()">Change Status</button>
+            <button type="submit" class="btn" onclick="changeStatus()">Change Status</button>
           </div>
         </form>
       </div>
@@ -93,10 +94,7 @@
       if(stat.value < 1 || stat.value > 4)
       {
         //do nothing if selected value is not a valid option
-      }
-      else
-      {
-
+        return;
       }
     }
     function assignBug(){
