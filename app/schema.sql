@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS bugtype;
 -- Create tables
 CREATE TABLE bug (
 	bug_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT,
 	description TEXT NOT NULL,
 	status_id INTEGER NOT NULL,
 	assignedmember_id INTEGER NOT NULL,
