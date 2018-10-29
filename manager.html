@@ -73,10 +73,10 @@
             <!-- to be populated from the SQL database-->
             <select class="form-control" id="changed-status">
               <option selected>Choose...</option>
-              <option>Replicated</option>
-              <option>Tested</option>
-              <option>Fixed</option>
-              <option>Deleted</option>
+              <option value="1">Replicated</option>
+              <option value="2">Tested</option>
+              <option value="3">Fixed</option>
+              <option value="4">Deleted</option>
             </select>
           </div>
           <div class="center-block">
@@ -90,6 +90,10 @@
   <script>
     function changeStatus(){
       var stat = document.getElementById("changed-status");
+      if(stat.value < 1 || stat.value > 4)
+      {
+        //do nothing if selected value is not a valid option
+      }
     }
     function assignBug(){
       var person = document.getElementById("assignee");
