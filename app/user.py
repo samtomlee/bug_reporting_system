@@ -11,5 +11,5 @@ def get_user_id_from_email(email):
 
 def get_user(user_id):
 	db = get_db()
-	data = db.execute('SELECT * FROM user WHERE user_id=?', user_id).fetchone()
-	return User(data.name, data.email)
+	data = db.execute('SELECT * FROM user WHERE user_id=?', str(user_id)).fetchone()
+	return User(data['name'], data['email'])

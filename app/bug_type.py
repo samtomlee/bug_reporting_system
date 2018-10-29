@@ -6,4 +6,4 @@ def get_bug_type_id(name):
 
 def get_bug_type(bug_type_id):
 	db = get_db()
-	return db.execute('SELECT * FROM bugtype WHERE bugtype_id=?', bug_type_id).fetchone()['name']
+	return db.execute('SELECT * FROM bugtype WHERE bugtype_id=?', str(bug_type_id)).fetchone()['name']

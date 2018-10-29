@@ -25,11 +25,30 @@ def create_bug(description, status, assigned_member, bug_type, submitter_email):
 		INSERT INTO bug (description, status_id, assignedmember_id, bugtype_id, submitter_email)
 		VALUES (?, ?, ?, ?, ?, ?)
 		""",
-		(description, status_id, user_id, type_id, submitter_email)
+		(description, str(status_id), str(user_id), str(type_id), submitter_email)
 		)
 	db.commit()
 
 def get_bug(bug_id):
 	db = get_db()
-	data = db.execute('SELECT * FROM bug WHERE bug_id=?', (bug_id,)).fetchone()
-	return data.keys()
+	data = db.execute('SELECT * FROM bug WHERE bug_id=?', (str(bug_id),)).fetchone()
+	return Bug(data['bug_id'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time'])
+
+def get_bugs(filters = {}):
+	db = get_db()
+	query = "SELECT * FROM bug"
+
+	i = 0
+	for key, value in filters.items():
+		if i == 0:
+			query += " WHERE {}={}".format(key, value)
+		else:
+			query += " AND {}={}".format(key, value)
+		i += 1
+
+	rows = db.execute(query).fetchall()
+	bugs = []
+	for data in rows:
+		bugs.append(Bug(data['bug_id'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time']))
+
+	return bugs
