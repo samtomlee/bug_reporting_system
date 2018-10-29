@@ -5,12 +5,100 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Manager</title>
+  <link rel="stylesheet" type="text/css" href="form.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 </head>
 <body>
-  
+  <!-- Navigation Bar setup -->
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <a class="navbar-brand" style="color: #b30738" href="#">SCU IT</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggler" aria-controls="navbarToggler" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarToggler">
+      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="index.html">Home</a>
+        </li>
+        <li class="nav-item active">
+          <a class="nav-link" href="form.html">Bug Report Form</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="history.html">Bug History</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Login</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class= "page-header">
+    <h3 class="IT">Information Technology</h3>
+    <h1>Manager</h1>
+  </div>
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8">
+        <!-- Table of Bugs -->
+      </div>
+      <div class="col-md-4">
+        <!-- Column of Manager specific functions -->
+        <h4><b>Manager Functions</b></h4>
+        <form>
+          <div class="form-group">
+            <label for="assignee">Bug Assignee</label>
+            <!-- to be populated from the SQL database-->
+            <select class="form-control" id="assignee">
+              <option>1</option>
+              <option>2</option>
+              <option>3</option>
+              <option>4</option>
+              <option>5</option>
+            </select>
+          </div>
+          <div class="center-block">
+            <button type="submit" class="btn btn-primary" onclick="assignBug()">Assign Bug</button>
+          </div>
+        </form>
+        <br>
+        <form>
+          <div class="form-group">
+            <label for="changed-status">Bug Status</label>
+            <!-- to be populated from the SQL database-->
+            <select class="form-control" id="changed-status">
+              <option selected>Choose...</option>
+              <option value="1">Replicated</option>
+              <option value="2">Tested</option>
+              <option value="3">Fixed</option>
+              <option value="4">Deleted</option>
+            </select>
+          </div>
+          <div class="center-block">
+            <button type="submit" class="btn btn-primary" onclick="changeStatus()">Change Status</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function changeStatus(){
+      var stat = document.getElementById("changed-status");
+      if(stat.value < 1 || stat.value > 4)
+      {
+        //do nothing if selected value is not a valid option
+      }
+    }
+    function assignBug(){
+      var person = document.getElementById("assignee");
+    }
+  </script>
+
 </body>
 </html>
