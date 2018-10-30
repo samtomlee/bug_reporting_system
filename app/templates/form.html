@@ -43,7 +43,7 @@
     <h1>Bug Report Form</h1>
   </div>
   <div class="container">
-    <form class="needs-validation" novalidate action="{{ url_for(report.submit_bug_form) }}">
+    <form class="needs-validation" novalidate action="/report/submit">
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" placeholder="Email (to contact)" required>
@@ -97,7 +97,7 @@
       </div>
 
       <div class="center-block">
-        <button type="submit" class="btn col-md-4 col-md-offset-4">Submit Bug</button>
+        <button type="submit" class="btn col-md-4 col-md-offset-4" onclick="submitBug()">Submit Bug</button>
       </div>
   </form>
 </div>
@@ -114,11 +114,16 @@
       }
     }
     var desc = document.getElementById("bugDesc").value;
-    console.log(contact);
-    console.log(brief);
-    console.log(type);
-    console.log(desc);
 
+    fetch('/report/submit', {
+      method: "POST",
+      body: JSON.stringify({
+        name: brief,
+        bugType: type,
+        email: contact,
+        description: desc
+      })
+    })
   }
   // valid inputs check
   (function() {
