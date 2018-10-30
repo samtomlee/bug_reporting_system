@@ -47,23 +47,27 @@
           <!-- Table of Bugs -->
           <h4><b>Current Bugs</b></h4>
           <table class="table" data-toggle="table" data-click-to-select="true">
-            <thead>
-              <tr>
-                <th data-field="state" data-checkbox="true"></th>
-                <th scope="col">ID #</th>
-                <th scope="col">Bug Type</th>
-                <th scope="col">Brief Description</th>
-                <th scope="col">Status</th>
-              </tr>
-            </thead>
+          <thead>
             <tr>
-              <td><input type="checkbox" class="bugEntry"/></td>
-              <td>00001</td>
-              <td>Camino</td>
-              <td>Testing</td>
-              <td>Replicated</td>
+              <th data-field="state" data-checkbox="true"></th>
+              <th scope="col">ID #</th>
+              <th scope="col">Bug Type</th>
+              <th scope="col">Brief Description</th>
+              <th scope="col">Status</th>
             </tr>
-          </table>
+          </thead>
+          <tbody>
+          {% for bug in bugs %}
+            <tr>
+              <td><input type="checkbox" class="bugEntry" value="{{ bug.id }}"/></td>
+              <td>{{ bug.id }}</td>
+              <td>{{ bug.type }}</td>
+              <td>{{ bug.name }}</td>
+              <td>{{ bug.status }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
         </div>
         <div class="col-md-4">
           <!-- Column of Manager specific functions -->
@@ -75,10 +79,10 @@
               <!-- to be populated from the SQL database-->
               <select class="form-control" id="changed-status">
                 <option selected>Choose...</option>
-                <option value="1">Replicated</option>
-                <option value="2">Tested</option>
-                <option value="3">Fixed</option>
-                <option value="4">Deleted</option>
+                <option value="Reproduced">Reproduced</option>
+                <option value="Tested">Tested</option>
+                <option value="Fixed">Fixed</option>
+                <option value="Closed">Closed</option>
               </select>
             </div>
             <div class="center-block">
@@ -88,6 +92,26 @@
         </div>
       </div>
     </div>
+<script>
+    function changeStatus() {
+      let stat = document.getElementById("changed-status");
+      let toChange = document.getElementsByClassName("bugEntry");
 
+      for (let elem of toChange) {
+        if (elem.checked) {
+          fetch('/bug/update', {
+            method: "POST",
+            headers: {
+              "Content-Type": 'application/json'
+            },
+            body: JSON.stringify({
+              status: stat.value,
+              bug_id: elem.value
+            })
+          });
+        }
+      }
+    }
+  </script>
 </body>
 </html>

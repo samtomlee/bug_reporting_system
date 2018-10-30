@@ -57,13 +57,17 @@
               <th scope="col">Status</th>
             </tr>
           </thead>
-          <tr>
-            <td><input type="checkbox" class="bugEntry"/></td>
-            <td>00001</td>
-            <td>Camino</td>
-            <td>Testing</td>
-            <td>Replicated</td>
-          </tr>
+          <tbody>
+          {% for bug in bugs %}
+            <tr>
+              <td><input type="checkbox" class="bugEntry" value="{{ bug.id }}"/></td>
+              <td>{{ bug.id }}</td>
+              <td>{{ bug.type }}</td>
+              <td>{{ bug.name }}</td>
+              <td>{{ bug.status }}</td>
+            </tr>
+          {% endfor %}
+          </tbody>
         </table>
       </div>
       <div class="col-md-4">
@@ -76,10 +80,10 @@
             <!-- to be populated from the SQL database-->
             <select class="form-control" id="changed-status">
               <option selected>Choose...</option>
-              <option value="1">Replicated</option>
-              <option value="2">Tested</option>
-              <option value="3">Fixed</option>
-              <option value="4">Deleted</option>
+              <option value="Reproduced">Reproduced</option>
+              <option value="Fixed">Fixed</option>
+              <option value="Tested">Tested</option>
+              <option value="Closed">Closed</option>
             </select>
           </div>
           <div class="center-block">
@@ -91,22 +95,24 @@
   </div>
 
   <script>
-    function changeStatus(){
-      var stat = document.getElementById("changed-status");
-      if(stat.value < 1 || stat.value > 4)
-      {
-        //do nothing if selected value is not a valid option
+    function changeStatus() {
+      let stat = document.getElementById("changed-status");
+      let toChange = document.getElementsByClassName("bugEntry");
+
+      for (let elem of toChange) {
+        if (elem.checked) {
+          fetch('/bug/update', {
+            method: "POST",
+            headers: {
+              "Content-Type": 'application/json'
+            },
+            body: JSON.stringify({
+              status: stat.value,
+              bug_id: elem.value
+            })
+          });
+        }
       }
-      else
-      {
-        var toChange = document.getElementsByClassName("bugEntry");
-        toChange.forEach(function(element){
-          // change the status and reload the table
-        });
-      }
-    }
-    function assignBug(){
-      var person = document.getElementById("assignee");
     }
   </script>
 

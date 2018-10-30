@@ -49,9 +49,10 @@ INSERT INTO bugtype (name)
 VALUES
 	("eCampus"),
 	("Camino"),
-	("My SCU Portal"),
+	("MySCU Portal"),
 	("scu.edu");
 
 INSERT INTO user (user_id, name, email)
 VALUES
-	(0, "unassigned", "unassigned");
+	(0, "Unassigned", "Unassigned"),
+	(1, "Test Testerson", "ttesterson@scu.edu");

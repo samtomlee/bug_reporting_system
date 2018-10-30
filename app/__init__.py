@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask
+from flask import Flask, redirect, url_for
 from . import bug
 
 def create_app(test_config=None):
@@ -30,6 +30,10 @@ def create_app(test_config=None):
 	from . import report
 	app.register_blueprint(report.bp)
 
+	@app.route('/')
+	def home_redirect():
+		return redirect(url_for('report.get_report_form'))
+
 	from . import developer
 	app.register_blueprint(developer.bp)
 
@@ -38,5 +42,8 @@ def create_app(test_config=None):
 
 	from . import manager
 	app.register_blueprint(manager.bp)
+
+	from . import bug
+	app.register_blueprint(bug.bp)
 
 	return app

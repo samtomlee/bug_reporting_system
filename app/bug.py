@@ -2,6 +2,9 @@ from .database import get_db
 from .status import get_status_id, get_status
 from .bug_type import get_bug_type_id, get_bug_type
 from .user import get_user_id_from_email, get_user
+from flask import Blueprint, request
+
+bp = Blueprint('bug', __name__, url_prefix='/bug')
 
 class Bug:
 	def __init__(self, bug_id, name, description, status_id, user_id, bug_type_id, submitter_email, submission_time):
@@ -68,7 +71,7 @@ def update_bug(bug_id, new_data):
 		del new_data['status']
 
 	if 'assigned_member' in new_data.keys():
-		new_data['user_id'] = get_user_id_from_email(new_data['assigned_member'])
+		new_data['assignedmember_id'] = get_user_id_from_email(new_data['assigned_member'])
 		del new_data['assigned_member']
 
 	values = []
@@ -84,3 +87,17 @@ def update_bug(bug_id, new_data):
 	print(values)
 	cur.execute(query, values)
 	db.commit()
+
+@bp.route('/update', methods=('POST',))
+def submit_bug_change():
+	data = request.get_json()
+	bug_id = int(data['bug_id'])
+	del data['bug_id']
+	update_bug(bug_id, data)
+	return "Bug updated"
+
+@bp.route('/create', methods=('POST',))
+def submit_bug_form():
+	data = request.get_json()
+	create_bug(data['name'], data['description'], 'Submitted', data['bugtype'], data['email'])
+	return "Bug report submitted"

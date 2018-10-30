@@ -1,6 +1,7 @@
 from .database import get_db
 
 def get_status_id(name):
+	print(name)
 	cur = get_db().cursor()
 	return cur.execute('SELECT * FROM status WHERE name=?', (name,)).fetchone()['status_id']
 
