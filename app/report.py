@@ -10,5 +10,5 @@ def get_report_form():
 @bp.route('/submit', methods=('GET', 'POST'))
 def submit_bug_form():
 	print(request.form[''])
-	create_bug(request.form['name'], request.form['description'], request.form['status'], request.form['bugtype'], request.form['email'])
+	create_bug(request.form['name'], request.form['description'], 'Submitted', request.form['bugtype'], request.form['email'])
 	return redirect(url_for('report.get_report_form'))
