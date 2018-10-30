@@ -61,13 +61,13 @@
           </thead>
           <tbody>
           {% for bug in bugs %}
-            <tr class="bug-row" data-toggle="modal" data-target="#orderModal">
+            <tr class="bug-row">
               <td><input type="checkbox" class="bugEntry" value="{{ bug.id }}"/></td>
-              <td class="bug-id">{{ bug.id }}</td>
-              <td class="bug-type">{{ bug.type }}</td>
-              <td class="bug-name">{{ bug.name }}</td>
-              <td class="bug-status">{{ bug.status }}</td>
-              <td class="bug-assignee">{{ bug.assigned_member.name }}</td>
+              <td class="bug-id" data-toggle="modal" data-target="#orderModal">{{ bug.id }}</td>
+              <td class="bug-type" data-toggle="modal" data-target="#orderModal">{{ bug.type }}</td>
+              <td class="bug-name" data-toggle="modal" data-target="#orderModal">{{ bug.name }}</td>
+              <td class="bug-status" data-toggle="modal" data-target="#orderModal">{{ bug.status }}</td>
+              <td class="bug-assignee" data-toggle="modal" data-target="#orderModal">{{ bug.assigned_member.name }}</td>
               <td class="bug-description" style="display: none;">{{ bug.description }}</span>
             </tr>
           {% endfor %}
