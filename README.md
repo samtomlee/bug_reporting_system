@@ -11,8 +11,3 @@ pip install flask
 ```sh
 flask run 
 ```
-
-## Database info
-See http://wiki.helpme.engr.scu.edu/index.php/Oracle for more information
-Username: tking
-password: bugreporting!
