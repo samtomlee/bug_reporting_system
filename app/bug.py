@@ -4,36 +4,36 @@ from .bug_type import get_bug_type_id, get_bug_type
 from .user import get_user_id_from_email, get_user
 
 class Bug:
-	def __init__(self, bug_id, description, status_id, user_id, bug_type_id, submitter_email, submission_time):
+	def __init__(self, bug_id, name, description, status_id, user_id, bug_type_id, submitter_email, submission_time):
 		self.id = bug_id
+		self.name = name
 		self.description = description
 		self.status = get_status(status_id)
 		self.assigned_member = get_user(user_id)
-		self.bug_type = get_bug_type(bug_type_id)
+		self.type = get_bug_type(bug_type_id)
 		self.submitter_email = submitter_email
 		self.submission_time = submission_time
 
-def create_bug(description, status, assigned_member, bug_type, submitter_email):
+def create_bug(name, description, status, bug_type, submitter_email):
 	db = get_db()
 	cur = db.cursor()
 
 	status_id = get_status_id(status)
 	type_id = get_bug_type_id(bugtype)
-	user_id = get_user_id_from_email(assigned_member)
 
 	cur.execute(
 		"""
-		INSERT INTO bug (description, status_id, assignedmember_id, bugtype_id, submitter_email)
-		VALUES (?, ?, ?, ?, ?, ?)
+		INSERT INTO bug (name, description, status_id, assignedmember_id, bugtype_id, submitter_email)
+		VALUES (?, ?, ?, ?, ?, ?, ?)
 		""",
-		(description, str(status_id), str(user_id), str(type_id), submitter_email)
+		(name, description, status_id, 0, type_id, submitter_email)
 		)
 	db.commit()
 
 def get_bug(bug_id):
 	cur = get_db().cursor()
 	data = cur.execute('SELECT * FROM bug WHERE bug_id=?', ((bug_id),)).fetchone()
-	return Bug(data['bug_id'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time'])
+	return Bug(data['bug_id'], data['name'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time'])
 
 def get_bugs(filters = {}):
 	cur = get_db().cursor()
@@ -53,7 +53,7 @@ def get_bugs(filters = {}):
 	rows = cur.execute(query, values).fetchall()
 	bugs = []
 	for data in rows:
-		bugs.append(Bug(data['bug_id'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time']))
+		bugs.append(Bug(data['bug_id'], data['name'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time']))
 
 	return bugs
 

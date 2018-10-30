@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, request, g
-from app.database import get_db
+from flask import Blueprint, render_template, request, redirect, url_for, g
+from app.bug import create_bug
 
 bp = Blueprint('report', __name__, url_prefix='/report')
 
@@ -7,8 +7,14 @@ bp = Blueprint('report', __name__, url_prefix='/report')
 def get_report_form():
 	return render_template('form.html')
 
-@bp.route('/', methods=('POST',))
+@bp.route('/submit', methods=('GET', 'POST'))
 def submit_bug_form():
+<<<<<<< HEAD
 	description = report.form.get('bugDesc')
 	bug_type = report.form.get('typeBugs')
 	submitter_email = report.form.get('')
+=======
+	print(request.form[''])
+	create_bug(request.form['name'], request.form['description'], 'Submitted', request.form['bugtype'], request.form['email'])
+	return redirect(url_for('report.get_report_form'))
+>>>>>>> dev

@@ -30,4 +30,13 @@ def create_app(test_config=None):
 	from . import report
 	app.register_blueprint(report.bp)
 
+	from . import developer
+	app.register_blueprint(developer.bp)
+
+	from . import tester
+	app.register_blueprint(tester.bp)
+
+	from . import manager
+	app.register_blueprint(manager.bp)
+
 	return app
