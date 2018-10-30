@@ -55,4 +55,5 @@ VALUES
 INSERT INTO user (user_id, name, email)
 VALUES
 	(0, "Unassigned", "Unassigned"),
-	(1, "Test Testerson", "ttesterson@scu.edu");
+	(1, "Test Testerson", "ttesterson@scu.edu"),
+	(2, "Dev Guy", "dguy@scu.edu");
