@@ -9,4 +9,6 @@ def get_report_form():
 
 @bp.route('/', methods=('POST',))
 def submit_bug_form():
-	a = 1
+	description = report.form.get('bugDesc')
+	bug_type = report.form.get('typeBugs')
+	submitter_email = report.form.get('')
