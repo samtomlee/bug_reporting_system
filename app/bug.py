@@ -87,7 +87,7 @@ def update_bug(bug_id, new_data):
 	print(values)
 	cur.execute(query, values)
 	db.commit()
-
+	
 @bp.route('/update', methods=('POST',))
 def submit_bug_change():
 	data = request.get_json()

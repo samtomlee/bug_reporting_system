@@ -22,10 +22,10 @@
     <div class="collapse navbar-collapse" id="navbarToggler">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="/home">Home</a>
         </li>
         <li class="nav-item active">
-          <a class="nav-link" href="form.html">Bug Report Form</a>
+          <a class="nav-link" href="/report">Bug Report Form</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="history.html">Bug History</a>
@@ -114,10 +114,6 @@
       }
     }
     var desc = document.getElementById("bugDesc").value;
-    console.log(contact);
-    console.log(brief);
-    console.log(type);
-    console.log(desc);
 
     fetch('/bug/create', {
       method: "POST",
@@ -132,6 +128,7 @@
       })
     });
   }
+  // valid inputs check
   (function() {
   'use strict';
   window.addEventListener('load', function() {
