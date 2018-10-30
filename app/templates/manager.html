@@ -63,13 +63,14 @@
           </thead>
           <tbody>
           {% for bug in bugs %}
-            <tr data-toggle="modal" data-target="#orderModal" data-bug="{{ bug.id }}">
+            <tr class="bug-row" data-toggle="modal" data-target="#orderModal">
               <td><input type="checkbox" class="bugEntry" value="{{ bug.id }}"/></td>
-              <td>{{ bug.id }}</td>
-              <td>{{ bug.type }}</td>
-              <td>{{ bug.name }}</td>
-              <td>{{ bug.status }}</td>
-              <td>{{ bug.assigned_member.name }}</td>
+              <td class="bug-id">{{ bug.id }}</td>
+              <td class="bug-type">{{ bug.type }}</td>
+              <td class="bug-name">{{ bug.name }}</td>
+              <td class="bug-status">{{ bug.status }}</td>
+              <td class="bug-assignee">{{ bug.assigned_member.name }}</td>
+              <td class="bug-description" style="display: none;">{{ bug.description }}</span>
             </tr>
           {% endfor %}
           </tbody>
@@ -82,14 +83,14 @@
           <!-- Modal content-->
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">ID #</h4>
+              <h4 class="modal-title">bug name</h4>
               <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <div class="modal-body">
-              <p>bug type</p>
-              <p>description</p>
-              <p>status</p>
-              <p>person</p>
+              <div><b>Bug Type: </b><span class="bug-type">bug type</span></div>
+              <div><b>Status: </b><span class="bug-status">status</span></div>
+              <div><b>Assigned Team Member: </b><span class="bug-assignee">person</span></div>
+              <div><b>Description: </b><p class="bug-description">description</p></div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -175,11 +176,15 @@
       }
     }
     $(document).ready(function () {
-      $('#orderModal').on('show.bs.modal', function(event) {
-        console.log('hey');
-        var button = $(event.relatedTarget) // Button that triggered the modal
-        var bug = button.data('bug');
-        console.log(bug);
+      $('.bug-row').on('click', function(e) {
+        var bugRow = $(this);
+        var modal = $('#orderModal');
+
+        modal.find(".bug-type").html(bugRow.find(".bug-type").html());
+        modal.find(".bug-status").html(bugRow.find(".bug-status").html());
+        modal.find(".bug-description").html(bugRow.find(".bug-description").html());
+        modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
+        modal.find(".modal-title").html(bugRow.find(".bug-name").html());
       });
     });
   </script>
