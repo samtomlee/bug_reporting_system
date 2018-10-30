@@ -54,6 +54,4 @@ VALUES
 
 INSERT INTO user (user_id, name, email)
 VALUES
-	(0),
-	("unassigned"),
-	("unassigned");
+	(0, "unassigned", "unassigned");
