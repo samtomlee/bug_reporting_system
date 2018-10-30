@@ -46,7 +46,7 @@
         <div class="col-md-8">
           <!-- Table of Bugs -->
           <h4><b>Current Bugs</b></h4>
-          <table class="table" data-toggle="table" data-click-to-select="true">
+          <table class="table" id="bugs">
             <thead>
               <tr>
                 <th data-field="state" data-checkbox="true"></th>
@@ -56,13 +56,16 @@
                 <th scope="col">Status</th>
               </tr>
             </thead>
-            <tr>
+            {% for bug in bugs %}
+            <tr id={{ bug.id }}>
               <td><input type="checkbox" class="bugEntry"/></td>
-              <td>00001</td>
-              <td>Camino</td>
-              <td>Testing</td>
-              <td>Replicated</td>
+              <td>{{bug.id}}</td>
+              <td>{{bug.type}}</td>
+              <td>{{bug.briefDesc}}</td>
+              <td>{{bug.status}}</td>
+              <td>{{bug.person}}</td>
             </tr>
+            {% endfor %}
           </table>
         </div>
         <div class="col-md-4">

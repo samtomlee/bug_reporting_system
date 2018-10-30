@@ -47,7 +47,7 @@
       <div class="col-md-8">
         <!-- Table of Bugs -->
         <h4><b>Current Bugs</b></h4>
-        <table class="table" data-toggle="table" data-click-to-select="true">
+        <table class="table" id="bugs">
           <thead>
             <tr>
               <th data-field="state" data-checkbox="true"></th>
@@ -59,13 +59,16 @@
             </tr>
           </thead>
           <tbody>
-            <tr>
+            {% for bug in bugs %}
+            <tr id={{ bug.id }}>
               <td><input type="checkbox" class="bugEntry"/></td>
-              <td>00001</td>
-              <td>Camino</td>
-              <td>Testing</td>
-              <td>Replicated</td>
+              <td>{{bug.id}}</td>
+              <td>{{bug.type}}</td>
+              <td>{{bug.briefDesc}}</td>
+              <td>{{bug.status}}</td>
+              <td>{{bug.person}}</td>
             </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>
@@ -114,11 +117,11 @@
       var stat = document.getElementById("changed-status");
       if(stat.value < 1 || stat.value > 4)
       {
-        //do nothing if selected value is not a valid option
+        // do nothing if selected value is not a valid option
       }
       else
       {
-
+        // change the status of the selected bug
       }
     }
     function assignBug(){
