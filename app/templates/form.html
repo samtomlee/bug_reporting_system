@@ -43,7 +43,7 @@
     <h1>Bug Report Form</h1>
   </div>
   <div class="container">
-    <form class="needs-validation" novalidate action="{{ url_for(report.submit_bug_form) }}">
+    <form class="needs-validation" novalidate action="/report/submit">
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" placeholder="Email (to contact)" required>
