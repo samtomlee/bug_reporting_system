@@ -34,7 +34,7 @@ def create_bug(name, description, status, assigned_member, bug_type, submitter_e
 def get_bug(bug_id):
 	cur = get_db().cursor()
 	data = cur.execute('SELECT * FROM bug WHERE bug_id=?', ((bug_id),)).fetchone()
-	return Bug(data['bug_id'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time'])
+	return Bug(data['bug_id'], data['name'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time'])
 
 def get_bugs(filters = {}):
 	cur = get_db().cursor()
@@ -54,7 +54,7 @@ def get_bugs(filters = {}):
 	rows = cur.execute(query, values).fetchall()
 	bugs = []
 	for data in rows:
-		bugs.append(Bug(data['bug_id'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time']))
+		bugs.append(Bug(data['bug_id'], data['name'], data['description'], data['status_id'], data['assignedmember_id'], data['bugtype_id'], data['submitter_email'], data['submission_time']))
 
 	return bugs
 
