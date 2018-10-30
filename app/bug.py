@@ -19,12 +19,12 @@ def create_bug(name, description, status, bug_type, submitter_email):
 	cur = db.cursor()
 
 	status_id = get_status_id(status)
-	type_id = get_bug_type_id(bugtype)
+	type_id = get_bug_type_id(bug_type)
 
 	cur.execute(
 		"""
 		INSERT INTO bug (name, description, status_id, assignedmember_id, bugtype_id, submitter_email)
-		VALUES (?, ?, ?, ?, ?, ?, ?)
+		VALUES (?, ?, ?, ?, ?, ?)
 		""",
 		(name, description, status_id, 0, type_id, submitter_email)
 		)
