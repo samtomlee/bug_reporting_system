@@ -51,8 +51,8 @@
       <div class="row">
         <div class="col-md-8">
           <div class="form-group">
-            <label for="bugName">Name of Bug</label>
-            <input type="text" class="form-control" id="bugName" placeholder="Type in a name for the bug" required>
+            <label for="bugBrief">Brief Description of Bug</label>
+            <input type="text" class="form-control" id="bugBrief" placeholder="Type in a brief description for the bug (140 characters or less)" required>
           </div>
         </div>
         <div class="form-check col-md-4">
@@ -105,7 +105,7 @@
 <script>
   function submitBug(){
     var contact = document.getElementById('email').value;
-    var name = document.getElementById("bugName").value;
+    var brief = document.getElementById("bugBrief").value;
     var types = document.getElementsByName("typeBugs");
     for (var i = 0; i < types.length; i++){
       if(types[i].checked){
@@ -115,7 +115,7 @@
     }
     var desc = document.getElementById("bugDesc").value;
     console.log(contact);
-    console.log(name);
+    console.log(brief);
     console.log(type);
     console.log(desc);
   }
