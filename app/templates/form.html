@@ -43,7 +43,7 @@
     <h1>Bug Report Form</h1>
   </div>
   <div class="container">
-    <form class="needs-validation" novalidate>
+    <form class="needs-validation" id="report-form" novalidate>
       <div class="form-group">
         <label for="email">Email</label>
         <input type="email" class="form-control" id="email" placeholder="Email (to contact)" required>
@@ -114,19 +114,22 @@
       }
     }
     var desc = document.getElementById("bugDesc").value;
-
-    fetch('/bug/create', {
-      method: "POST",
-      headers: {
-          "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        name: brief,
-        description: desc,
-        bugtype: type,
-        email: contact
-      })
-    });
+    var form = document.getElementById('report-form');
+    
+    if (form.checkValidity() === true) {
+      fetch('/bug/create', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          name: brief,
+          description: desc,
+          bugtype: type,
+          email: contact
+        })
+      });
+    }
   }
   // valid inputs check
   (function() {
