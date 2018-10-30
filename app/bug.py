@@ -14,20 +14,19 @@ class Bug:
 		self.submitter_email = submitter_email
 		self.submission_time = submission_time
 
-def create_bug(name, description, status, assigned_member, bug_type, submitter_email):
+def create_bug(name, description, status, bug_type, submitter_email):
 	db = get_db()
 	cur = db.cursor()
 
 	status_id = get_status_id(status)
 	type_id = get_bug_type_id(bugtype)
-	user_id = get_user_id_from_email(assigned_member)
 
 	cur.execute(
 		"""
 		INSERT INTO bug (name, description, status_id, assignedmember_id, bugtype_id, submitter_email)
 		VALUES (?, ?, ?, ?, ?, ?, ?)
 		""",
-		(name, description, status_id, user_id, type_id, submitter_email)
+		(name, description, status_id, 0, type_id, submitter_email)
 		)
 	db.commit()
 
