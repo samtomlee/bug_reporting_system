@@ -88,7 +88,7 @@
               <div><b>Bug Type: </b><span class="bug-type">bug type</span></div>
               <div><b>Status: </b><span class="bug-status">status</span></div>
               <div><b>Assigned Team Member: </b><span class="bug-assignee">person</span></div>
-              <div><b>Contact Info: </b><p class="email">email</p></div>
+              <div><b>Contact Info: </b><span class="email">email</span></div>
               <div><b>Description: </b><p class="bug-description">description</p></div>
             </div>
             <div class="modal-footer">
@@ -99,7 +99,7 @@
       </div>
 
       <div class="col-md-4">
-        <!-- Column of Manager specific functions -->
+        <!-- Column of Developer specific functions -->
         <h4><b>Developer Functions</b></h4>
         <br>
         <form>
@@ -107,15 +107,22 @@
             <label for="changed-status">Bug Status</label>
             <!-- to be populated from the SQL database-->
             <select class="form-control" id="changed-status">
-              <option selected>Choose...</option>
-              <option value="1">Replicated</option>
-              <option value="2">Tested</option>
-              <option value="3">Fixed</option>
-              <option value="4">Deleted</option>
+              {% for status in statuses %}
+              <option value = "{{ status }}">{{ status}}</option>
+              {% endfor %}
             </select>
           </div>
           <div class="center-block">
             <button type="submit" class="btn" onclick="changeStatus()">Change Status</button>
+          </div>
+        </form>
+        <form>
+          <div class="form-group">
+            <label for="changed-severity">Severity</label>
+            <!-- to be populated from SQL? -->
+            <select class="form-control" id="changed-severity">
+
+            </select>
           </div>
         </form>
       </div>
@@ -137,20 +144,24 @@
   </div>
 
   <script>
-    function changeStatus(){
-      var stat = document.getElementById("changed-status");
-      if(stat.value < 1 || stat.value > 4)
-      {
-        //do nothing if selected value is not a valid option
-      }
-      else
-      {
-        var toChange = document.getElementsByClassName("bugEntry");
-        toChange.forEach(function(element){
-          // change the status and reload the table
+  function changeStatus() {
+    let stat = document.getElementById("changed-status");
+    let toChange = document.getElementsByClassName("bugEntry");
+    for (let elem of toChange) {
+      if (elem.checked) {
+        fetch('/bug/update', {
+          method: "POST",
+          headers: {
+            "Content-Type": 'application/json'
+          },
+          body: JSON.stringify({
+            status: stat.value,
+            bug_id: elem.value
+          })
         });
       }
     }
+  }
     $(document).ready(function () {
       $('.bug-row').on('click', function(e) {
         var bugRow = $(this);
@@ -161,7 +172,7 @@
         modal.find(".bug-description").html(bugRow.find(".bug-description").html());
         modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
         modal.find(".modal-title").html(bugRow.find(".bug-name").html());
-        modal.find(".email").html(bugRow.find(".submitter_email").html());
+        modal.find(".email").html(bugRow.find(".email").html());
       });
     });
   </script>
