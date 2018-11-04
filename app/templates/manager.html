@@ -65,12 +65,13 @@
           {% for bug in bugs %}
             <tr class="bug-row">
               <td><input type="checkbox" class="bugEntry" value="{{ bug.id }}"/></td>
-              <td class="bug-id" data-toggle="modal" data-target="#orderModal">{{ bug.id }}</td>
-              <td class="bug-type" data-toggle="modal" data-target="#orderModal">{{ bug.type }}</td>
-              <td class="bug-name" data-toggle="modal" data-target="#orderModal">{{ bug.name }}</td>
-              <td class="bug-status" data-toggle="modal" data-target="#orderModal">{{ bug.status }}</td>
-              <td class="bug-assignee" data-toggle="modal" data-target="#orderModal">{{ bug.assigned_member.name }}</td>
+              <td class="bug-id" data-toggle="modal" data-target="#bugModal">{{ bug.id }}</td>
+              <td class="bug-type" data-toggle="modal" data-target="#bugModal">{{ bug.type }}</td>
+              <td class="bug-name" data-toggle="modal" data-target="#bugModal">{{ bug.name }}</td>
+              <td class="bug-status" data-toggle="modal" data-target="#bugModal">{{ bug.status }}</td>
+              <td class="bug-assignee" data-toggle="modal" data-target="#bugModal">{{ bug.assigned_member.name }}</td>
               <td class="bug-description" style="display: none;">{{ bug.description }}</span>
+              <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</span>
             </tr>
           {% endfor %}
           </tbody>
@@ -79,7 +80,7 @@
 
       <!-- Modal -->
 
-      <div id="orderModal" class="modal fade" role="dialog">
+      <div id="bugModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
           <!-- Modal content-->
           <div class="modal-content">
@@ -91,6 +92,7 @@
               <div><b>Bug Type: </b><span class="bug-type">bug type</span></div>
               <div><b>Status: </b><span class="bug-status">status</span></div>
               <div><b>Assigned Team Member: </b><span class="bug-assignee">person</span></div>
+              <div><b>Submitter Contact Info: </b><span class="bug-email">email</span></div>
               <div><b>Description: </b><p class="bug-description">description</p></div>
             </div>
             <div class="modal-footer">
@@ -177,13 +179,14 @@
     $(document).ready(function () {
       $('.bug-row').on('click', function(e) {
         var bugRow = $(this);
-        var modal = $('#orderModal');
+        var modal = $('#bugModal');
 
         modal.find(".bug-type").html(bugRow.find(".bug-type").html());
         modal.find(".bug-status").html(bugRow.find(".bug-status").html());
         modal.find(".bug-description").html(bugRow.find(".bug-description").html());
         modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
         modal.find(".modal-title").html(bugRow.find(".bug-name").html());
+                modal.find(".bug-email").html(bugRow.find(".bug-email").html());
       });
     });
   </script>
