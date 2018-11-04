@@ -45,7 +45,7 @@
   <!-- Ask for email if not signed in -->
   <div class="container">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-lg-8">
         <!-- Table of Bugs -->
         <h4><b>All Past Bugs</b></h4>
         <table class="table" id="bugs">
@@ -56,6 +56,7 @@
               <th scope="col">Brief Description</th>
               <th scope="col">Status</th>
               <th scope="col">Person Responsible</th>
+              <th scope="col">Last Updated</th>
             </tr>
           </thead>
           <tbody>
@@ -66,20 +67,22 @@
               <td class="bug-name" data-toggle="modal" data-target="#bugModal">{{ bug.name }}</td>
               <td class="bug-status" data-toggle="modal" data-target="#bugModal">{{ bug.status }}</td>
               <td class="bug-assignee" data-toggle="modal" data-target="#bugModal">{{ bug.assigned_member.name }}</td>
+              <td class="bug-time" data-toggle="modal" data-target="#bugModal">{{ bug.submission_time }}</td>
               <td class="bug-description" style="display: none;">{{ bug.description }}</span>
             </tr>
           {% endfor %}
           </tbody>
         </table>
       </div>
-      <div class="col-md-4">
+      <div class="col-lg-4">
         <!-- Column for FAQs and search -->
         <!-- Search form -->
-        <form class="form-inline md-form form-sm mt-0">
+        <form class="form-inline ">
           <i class="fa fa-search" aria-hidden="true"></i>
-          <input class="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search" aria-label="Search">
+          <input class="form-control form-control-sm" type="text" placeholder="Search" aria-label="Search">
         </form>
         <br>
+        <!-- FAQ section -->
         <div>
           <h4><b>FAQs</b></h4>
           <p><b>Q: How do I find the bugs I have submitted?</b></p>
