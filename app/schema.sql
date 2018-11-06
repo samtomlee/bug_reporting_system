@@ -3,6 +3,7 @@ DROP TABLE IF EXISTS bug;
 DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS status;
 DROP TABLE IF EXISTS bugtype;
+DROP TABLE IF EXISTS severity;
 
 -- Create tables
 CREATE TABLE bug (
@@ -12,11 +13,13 @@ CREATE TABLE bug (
 	status_id INTEGER NOT NULL,
 	assignedmember_id INTEGER NOT NULL,
 	bugtype_id INTEGER NOT NULL,
+	severity_id INTEGER NOT NULL,
 	submitter_email TEXT NOT NULL,
 	submission_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY(status_id) REFERENCES status(status_id),
 	FOREIGN KEY(assignedmember_id) REFERENCES user(user_id),
-	FOREIGN KEY(bugtype_id) REFERENCES bugtype(bugtype_id)
+	FOREIGN KEY(bugtype_id) REFERENCES bugtype(bugtype_id),
+	FOREIGN KEY(severity_id) REFERENCES severity(severity_id)
 );
 
 CREATE TABLE user (
@@ -36,7 +39,7 @@ CREATE TABLE bugtype (
 );
 
 CREATE TABLE severity(
-	bugtype_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	severity_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name TEXT NOT NULL
 );
 
@@ -56,6 +59,13 @@ VALUES
 	("Camino"),
 	("MySCU Portal"),
 	("scu.edu");
+
+INSERT INTO severity (name)
+VALUES
+	("Unset"),
+	("Low"),
+	("Medium"),
+	("High");
 
 INSERT INTO user (user_id, name, email)
 VALUES
