@@ -9,10 +9,8 @@
       {% include 'table.html' %}
     </div>
 
-    {% include 'bug_modal.html' %}
-
         <div class="col-md-4">
-          <!-- Column of Manager specific functions -->
+          <!-- Column of Developer specific functions -->
           <h4><b>Developer Functions</b></h4>
           <br>
           <form>
@@ -20,15 +18,22 @@
               <label for="changed-status">Bug Status</label>
               <!-- to be populated from the SQL database-->
               <select class="form-control" id="changed-status">
-                <option selected>Choose...</option>
-                <option value="Reproduced">Reproduced</option>
-                <option value="Tested">Tested</option>
-                <option value="Fixed">Fixed</option>
-                <option value="Closed">Closed</option>
+                {% for status in statuses %}
+                <option value = "{{ status }}">{{ status}}</option>
+                {% endfor %}
               </select>
             </div>
             <div class="center-block">
               <button type="button" class="btn" onclick="changeStatus()">Change Status</button>
+            </div>
+          </form>
+          <form>
+            <div class="form-group">
+              <label for="changed-severity">Severity</label>
+              <!-- to be populated from SQL? -->
+              <select class="form-control" id="changed-severity">
+
+              </select>
             </div>
           </form>
         </div>
