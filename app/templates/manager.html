@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-  
+
 {% block title %}Manager{% endblock %}
 {% block header %}Manager{% endblock %}
 
@@ -35,7 +35,7 @@
           <!-- to be populated from the SQL database -->
           <select class="form-control" id="changed-status">
             {% for status in statuses %}
-            <option value = "{{ status }}">{{ status}}</option>
+            <option value = "{{ status }}">{{ status }}</option>
             {% endfor %}
           </select>
         </div>
