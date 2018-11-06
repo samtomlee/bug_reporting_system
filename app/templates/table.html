@@ -1,0 +1,44 @@
+<!-- Table of Bugs -->
+<h4><b>Current Bugs</b></h4>
+<table class="table" id="bugs">
+  <thead>
+    <tr>
+      <th data-field="state" data-checkbox="true"></th>
+      <th scope="col">ID #</th>
+      <th scope="col">Bug Type</th>
+      <th scope="col">Brief Description</th>
+      <th scope="col">Status</th>
+      <th scope="col">Person Responsible</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for bug in bugs %}
+    <tr class="bug-row">
+      <td><input type="checkbox" class="bugEntry" value="{{ bug.id }}"/></td>
+      <td class="bug-id" data-toggle="modal" data-target="#bugModal">{{ bug.id }}</td>
+      <td class="bug-type" data-toggle="modal" data-target="#bugModal">{{ bug.type }}</td>
+      <td class="bug-name" data-toggle="modal" data-target="#bugModal">{{ bug.name }}</td>
+      <td class="bug-status" data-toggle="modal" data-target="#bugModal">{{ bug.status }}</td>
+      <td class="bug-assignee" data-toggle="modal" data-target="#bugModal">{{ bug.assigned_member.name }}</td>
+      <td class="bug-description" style="display: none;">{{ bug.description }}</span>
+      <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</span>
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+<script>
+  $(document).ready(function () {
+    $('.bug-row').on('click', function(e) {
+      var bugRow = $(this);
+      var modal = $('#bugModal');
+
+      modal.find(".bug-type").html(bugRow.find(".bug-type").html());
+      modal.find(".bug-status").html(bugRow.find(".bug-status").html());
+      modal.find(".bug-description").html(bugRow.find(".bug-description").html());
+      modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
+      modal.find(".modal-title").html(bugRow.find(".bug-name").html());
+      modal.find(".bug-email").html(bugRow.find(".bug-email").html());
+    });
+  });
+</script>

@@ -1,136 +1,29 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>History</title>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='form.css') }}">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-</head>
-<body>
-  <nav class="navbar navbar-expand-md navbar-light bg-light">
-    <a class="navbar-brand" href="#">SCU Bug Reporter</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
+{% extends 'base.html' %}
+  
+{% block title %}Bug History{% endblock %}
+{% block header %}Bug History{% endblock %}
 
-    <div class="collapse navbar-collapse" id="navbarToggler">
-      <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" href="/home">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/report">Bug Report Form</a>
-        </li>
-        <li class="nav-item active">
-          <a class="nav-link" href="/history">Bug History</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#">Login</a>
-        </li>
-      </ul>
-    </div>
-  </nav>
-
-  <div class= "page-header">
-    <h3 class="IT">Information Technology</h3>
-    <h1>Bug History</h1>
-  </div>
-
-  <!-- Ask for email if not signed in -->
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-8">
-        <!-- Table of Bugs -->
-        <h4><b>All Past Bugs</b></h4>
-        <table class="table" id="bugs">
-          <thead>
-            <tr>
-              <th scope="col">ID #</th>
-              <th scope="col">Bug Type</th>
-              <th scope="col">Brief Description</th>
-              <th scope="col">Status</th>
-              <th scope="col">Person Responsible</th>
-              <th scope="col">Last Updated</th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for bug in bugs %}
-            <tr class="bug-row">
-              <td class="bug-id" data-toggle="modal" data-target="#bugModal">{{ bug.id }}</td>
-              <td class="bug-type" data-toggle="modal" data-target="#bugModal">{{ bug.type }}</td>
-              <td class="bug-name" data-toggle="modal" data-target="#bugModal">{{ bug.name }}</td>
-              <td class="bug-status" data-toggle="modal" data-target="#bugModal">{{ bug.status }}</td>
-              <td class="bug-assignee" data-toggle="modal" data-target="#bugModal">{{ bug.assigned_member.name }}</td>
-              <td class="bug-time" data-toggle="modal" data-target="#bugModal">{{ bug.submission_time }}</td>
-              <td class="bug-description" style="display: none;">{{ bug.description }}</span>
-            </tr>
-          {% endfor %}
-          </tbody>
-        </table>
-      </div>
-      <div class="col-lg-4">
-        <!-- Column for FAQs and search -->
-        <!-- Search form -->
-        <form class="form-inline ">
-          <i class="fa fa-search" aria-hidden="true"></i>
-          <input class="form-control form-control-sm" type="text" placeholder="Search" aria-label="Search">
-        </form>
+{% block content %}
+  <div class="row">
+    {% include 'table.html' %}
+    <div class="col-lg-4">
+      <!-- Column for FAQs and search -->
+      <!-- Search form -->
+      <form class="form-inline ">
+        <i class="fa fa-search" aria-hidden="true"></i>
+        <input class="form-control form-control-sm" type="text" placeholder="Search" aria-label="Search">
+      </form>
+      <br>
+      <!-- FAQ section -->
+      <div>
+        <h4><b>FAQs</b></h4>
+        <p><b>Q: How do I find the bugs I have submitted?</b></p>
+        <p>In the search bar, enter email:[your email address] and press enter.</p>
         <br>
-        <!-- FAQ section -->
-        <div>
-          <h4><b>FAQs</b></h4>
-          <p><b>Q: How do I find the bugs I have submitted?</b></p>
-          <p>In the search bar, enter email:[your email address] and press enter.</p>
-          <br>
-        </div>
-
       </div>
+
     </div>
   </div>
 
-  <!-- Modal -->
-  <div id="bugModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">bug name</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        <div class="modal-body">
-          <div><b>Bug Type: </b><span class="bug-type">bug type</span></div>
-          <div><b>Status: </b><span class="bug-status">status</span></div>
-          <div><b>Assigned Team Member: </b><span class="bug-assignee">person</span></div>
-          <div><b>Description: </b><p class="bug-description">description</p></div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <script>
-    $(document).ready(function () {
-      $('.bug-row').on('click', function(e) {
-        var bugRow = $(this);
-        var modal = $('#bugModal');
-
-        modal.find(".bug-type").html(bugRow.find(".bug-type").html());
-        modal.find(".bug-status").html(bugRow.find(".bug-status").html());
-        modal.find(".bug-description").html(bugRow.find(".bug-description").html());
-        modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
-        modal.find(".modal-title").html(bugRow.find(".bug-name").html());
-      });
-    });
-  </script>
-
-</body>
-
-</html>
+  {% include 'bug_modal.html' %}
+{% endblock %}
