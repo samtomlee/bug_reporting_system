@@ -15,8 +15,20 @@
           <br>
           <form>
             <div class="form-group">
+              <label for="changed-severity">Severity</label>
+              <select class="form-control" id="changed-severity">
+                {% for severity in severities %}
+                <option value = "{{ severity }}">{{ severity }}</option>
+                {% endblock %}
+              </select>
+            </div>
+            <div class="center-block">
+              <button type="button" class="btn" onclick="changeSeverity()">Change Severity</button>
+            </div>
+          </form>
+          <form>
+            <div class="form-group">
               <label for="changed-status">Bug Status</label>
-              <!-- to be populated from the SQL database-->
               <select class="form-control" id="changed-status">
                 {% for status in statuses %}
                 <option value = "{{ status }}">{{ status}}</option>
@@ -25,15 +37,6 @@
             </div>
             <div class="center-block">
               <button type="button" class="btn" onclick="changeStatus()">Change Status</button>
-            </div>
-          </form>
-          <form>
-            <div class="form-group">
-              <label for="changed-severity">Severity</label>
-              <!-- to be populated from SQL? -->
-              <select class="form-control" id="changed-severity">
-
-              </select>
             </div>
           </form>
         </div>
@@ -56,6 +59,33 @@
               },
               body: JSON.stringify({
                 status: stat.value,
+                bug_id: elem.value
+              })
+            })
+          );
+        }
+
+        Promise.all(promises).then(() => {
+          window.location.reload();
+        });
+      }
+    }
+
+    function changeSeverity() {
+      let severity = document.getElementById("changed-severity");
+      let toChange = document.getElementsByClassName("bugEntry");
+      let promises = [];
+
+      for (let elem of toChange) {
+        if (elem.checked) {
+          promises.push(
+            fetch('/bug/update', {
+              method: "POST",
+              headers: {
+                "Content-Type": 'application/json'
+              },
+              body: JSON.stringify({
+                severity: severity.value,
                 bug_id: elem.value
               })
             })
