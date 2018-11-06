@@ -5,7 +5,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Developer</title>
-  <link rel="stylesheet" type="text/css" href="../static/form.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='form.css') }}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
@@ -23,13 +23,13 @@
     <div class="collapse navbar-collapse" id="navbarToggler">
       <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="index.html">Home</a>
+          <a class="nav-link" href="/home">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="form.html">Bug Report Form</a>
+          <a class="nav-link" href="/report">Bug Report Form</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="history.html">Bug History</a>
+          <a class="nav-link" href="/history">Bug History</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Login</a>
@@ -63,12 +63,13 @@
           {% for bug in bugs %}
             <tr class="bug-row">
               <td><input type="checkbox" class="bugEntry" value="{{ bug.id }}"/></td>
-              <td class="bug-id" data-toggle="modal" data-target="#orderModal">{{ bug.id }}</td>
-              <td class="bug-type" data-toggle="modal" data-target="#orderModal">{{ bug.type }}</td>
-              <td class="bug-name" data-toggle="modal" data-target="#orderModal">{{ bug.name }}</td>
-              <td class="bug-status" data-toggle="modal" data-target="#orderModal">{{ bug.status }}</td>
-              <td class="bug-assignee" data-toggle="modal" data-target="#orderModal">{{ bug.assigned_member.name }}</td>
+              <td class="bug-id" data-toggle="modal" data-target="#bugModal">{{ bug.id }}</td>
+              <td class="bug-type" data-toggle="modal" data-target="#bugModal">{{ bug.type }}</td>
+              <td class="bug-name" data-toggle="modal" data-target="#bugModal">{{ bug.name }}</td>
+              <td class="bug-status" data-toggle="modal" data-target="#bugModal">{{ bug.status }}</td>
+              <td class="bug-assignee" data-toggle="modal" data-target="#bugModal">{{ bug.assigned_member.name }}</td>
               <td class="bug-description" style="display: none;">{{ bug.description }}</span>
+              <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</span>
             </tr>
           {% endfor %}
           </tbody>
@@ -76,7 +77,7 @@
       </div>
 
       <!-- Modal -->
-      <div id="orderModal" class="modal fade" role="dialog">
+      <div id="bugModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
           <!-- Modal content-->
           <div class="modal-content">
@@ -87,7 +88,7 @@
             <div class="modal-body">
               <div><b>Bug Type: </b><span class="bug-type">bug type</span></div>
               <div><b>Status: </b><span class="bug-status">status</span></div>
-              <div><b>Assigned Team Member: </b><span class="bug-assignee">person</span></div>
+              <div><b>Contact Info: </b><span class="bug-email">email</span></div>
               <div><b>Description: </b><p class="bug-description">description</p></div>
             </div>
             <div class="modal-footer">
@@ -98,7 +99,7 @@
       </div>
 
       <div class="col-md-4">
-        <!-- Column of Manager specific functions -->
+        <!-- Column of Developer specific functions -->
         <h4><b>Developer Functions</b></h4>
         <br>
         <form>
@@ -106,18 +107,39 @@
             <label for="changed-status">Bug Status</label>
             <!-- to be populated from the SQL database-->
             <select class="form-control" id="changed-status">
-              <option selected>Choose...</option>
-              <option value="Reproduced">Reproduced</option>
-              <option value="Fixed">Fixed</option>
-              <option value="Tested">Tested</option>
-              <option value="Closed">Closed</option>
+              {% for status in statuses %}
+              <option value = "{{ status }}">{{ status}}</option>
+              {% endfor %}
             </select>
           </div>
           <div class="center-block">
             <button type="button" class="btn" onclick="changeStatus()">Change Status</button>
           </div>
         </form>
+        <form>
+          <div class="form-group">
+            <label for="changed-severity">Severity</label>
+            <!-- to be populated from SQL? -->
+            <select class="form-control" id="changed-severity">
+
+            </select>
+          </div>
+        </form>
       </div>
+    </div>
+  </div>
+
+  <!-- Modal layout for a more detailed description of the bug -->
+  <div id="bugModal" class="modal hide fade" role="dialog" aria-labelledby="bugModalLabel" aria-hidden="true">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+         <h3>Bug Details</h3>
+
+    </div>
+    <div id="bugDetails" class="modal-body"></div>
+    <div id="bugItems" class="modal-body"></div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
     </div>
   </div>
 
@@ -152,13 +174,14 @@
     $(document).ready(function () {
       $('.bug-row').on('click', function(e) {
         var bugRow = $(this);
-        var modal = $('#orderModal');
+        var modal = $('#bugModal');
 
         modal.find(".bug-type").html(bugRow.find(".bug-type").html());
         modal.find(".bug-status").html(bugRow.find(".bug-status").html());
         modal.find(".bug-description").html(bugRow.find(".bug-description").html());
         modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
         modal.find(".modal-title").html(bugRow.find(".bug-name").html());
+        modal.find(".bug-email").html(bugRow.find(".bug-email").html());
       });
     });
   </script>

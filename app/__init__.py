@@ -46,4 +46,10 @@ def create_app(test_config=None):
 	from . import bug
 	app.register_blueprint(bug.bp)
 
+	from . import history
+	app.register_blueprint(history.bp)
+
+	from . import home
+	app.register_blueprint(home.bp)
+
 	return app

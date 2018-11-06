@@ -35,6 +35,11 @@ CREATE TABLE bugtype (
 	name TEXT NOT NULL
 );
 
+CREATE TABLE severity(
+	bugtype_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT NOT NULL
+);
+
 -- Add default data
 
 INSERT INTO status (name)
