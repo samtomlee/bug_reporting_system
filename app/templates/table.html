@@ -16,8 +16,8 @@
   {% for bug in bugs %}
     <tr class="bug-row">
       <td><input type="checkbox" class="bugEntry" value="{{ bug.id }}"/></td>
-      <td class="bug-severity" data-toggle="modal" data-target="#bugModal">{{ bug.severity }}</td>
       <td class="bug-id" data-toggle="modal" data-target="#bugModal">{{ bug.id }}</td>
+      <td class="bug-severity" data-toggle="modal" data-target="#bugModal">{{ bug.severity }}</td>
       <td class="bug-type" data-toggle="modal" data-target="#bugModal">{{ bug.type }}</td>
       <td class="bug-name" data-toggle="modal" data-target="#bugModal">{{ bug.name }}</td>
       <td class="bug-status" data-toggle="modal" data-target="#bugModal">{{ bug.status }}</td>
