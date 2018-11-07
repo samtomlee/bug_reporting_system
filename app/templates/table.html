@@ -10,6 +10,8 @@
       <th scope="col">Brief Description</th>
       <th scope="col">Status</th>
       <th scope="col">Person Responsible</th>
+      <th style="display: none;"></th>
+      <th style="display: none;"></th>
     </tr>
   </thead>
   <tbody>
@@ -66,4 +68,5 @@
       modal.find(".bug-email").html(bugRow.find(".bug-email").html());
     });
   });
+  $("#bugs").dataTable();
 </script>
