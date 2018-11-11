@@ -25,7 +25,9 @@ CREATE TABLE bug (
 CREATE TABLE user (
 	user_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name TEXT NOT NULL,
-	email TEXT NOT NULL
+	email TEXT NOT NULL,
+	type TEXT NOT NULL,
+	password_hash TEXT NOT NULL
 );
 
 CREATE TABLE status (
@@ -70,5 +72,5 @@ VALUES
 INSERT INTO user (user_id, name, email)
 VALUES
 	(0, "Unassigned", "Unassigned"),
-	(1, "Test Testerson", "ttesterson@scu.edu"),
-	(2, "Dev Guy", "dguy@scu.edu");
+	(1, "Test Testerson", "ttesterson@scu.edu", 00, "Tester"),
+	(2, "Dev Guy", "dguy@scu.edu", 00000, "Developer");

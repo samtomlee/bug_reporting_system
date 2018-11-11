@@ -1,7 +1,9 @@
 import os
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, render_template, flash
 from . import bug
+from flask_login import LoginManager
+from app.loginform import LoginForm
 
 def create_app(test_config=None):
 	# create and configure the app
@@ -10,6 +12,8 @@ def create_app(test_config=None):
 		SECRET_KEY = 'supersecret',
 		DATABASE = os.path.join(app.instance_path, 'db.sqlite'),
 	)
+
+	login = LoginManager(app)
 
 	if test_config is None:
 		# load the instance config, if it exists, when not testing
@@ -32,6 +36,7 @@ def create_app(test_config=None):
 
 	@app.route('/')
 	def home_redirect():
+		# if the session user is not signed in
 		return redirect(url_for('report.get_report_form'))
 
 	from . import developer
@@ -51,5 +56,27 @@ def create_app(test_config=None):
 
 	from . import home
 	app.register_blueprint(home.bp)
+
+	from . import faq
+	app.register_blueprint(faq.bp)
+
+	@app.route('/login', methods=['GET', 'POST'])
+	def login():
+	    if current_user.is_authenticated:
+	        return redirect(url_for('/'))
+	    form = LoginForm()
+	    if form.validate_on_submit():
+	        user = User.query.filter_by(username=form.username.data).first()
+	        if user is None or not user.check_password(form.password.data):
+	            flash('Invalid username or password')
+	            return redirect(url_for('login'))
+	        login_user(user, remember=form.remember_me.data)
+	        return redirect(url_for('/'))
+	    return render_template('login.html', title='Sign In', form=form)
+
+	@app.route('/logout')
+	def logout():
+	    logout_user()
+	    return redirect(url_for('index'))
 
 	return app

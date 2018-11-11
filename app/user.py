@@ -1,9 +1,10 @@
 from .database import get_db
 
 class User:
-	def __init__(self, name, email):
+	def __init__(self, name, email, password_hash, type):
 		self.name = name
 		self.email = email
+		self.password_hash = password_hash
 
 def get_user_id_from_email(email):
 	cur = get_db().cursor()
