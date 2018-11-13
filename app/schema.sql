@@ -16,6 +16,7 @@ CREATE TABLE bug (
 	severity_id INTEGER NOT NULL,
 	submitter_email TEXT NOT NULL,
 	submission_time TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	last_updated TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	FOREIGN KEY(status_id) REFERENCES status(status_id),
 	FOREIGN KEY(assignedmember_id) REFERENCES user(user_id),
 	FOREIGN KEY(bugtype_id) REFERENCES bugtype(bugtype_id),

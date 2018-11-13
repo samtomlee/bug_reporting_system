@@ -33,7 +33,7 @@
           <!-- to be populated from the SQL database -->
           <select class="form-control" id="changed-status">
             {% for status in statuses %}
-            <option value = "{{ status }}">{{ status}}</option>
+            <option value = "{{ status.name }}">{{ status.name }}</option>
             {% endfor %}
           </select>
         </div>

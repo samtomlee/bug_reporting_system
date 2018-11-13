@@ -18,6 +18,7 @@ class Bug:
 		self.severity = get_severity(data['severity_id'])
 		self.submitter_email = data['submitter_email']
 		self.submission_time = data['submission_time']
+		self.last_updated = data['last_updated']
 
 def create_bug(name, description, status, bug_type, submitter_email):
 	db = get_db()
@@ -86,7 +87,8 @@ def update_bug(bug_id, new_data):
 		query += " {}=?,".format(key)
 		values.append(value)
 
-	query = query[:-1]
+	query += " last_updated=CURRENT_TIMESTAMP "
+
 	query += " WHERE bug_id=?"
 	values.append(bug_id)
 

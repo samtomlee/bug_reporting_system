@@ -1,6 +1,6 @@
 <!-- Table of Bugs -->
 <h4><b>Current Bugs</b></h4>
-<table class="table" id="bugs">
+<table class="table" id="bugs" style="width:100%">
   <thead>
     <tr>
       <th data-field="state" data-checkbox="true"></th>
@@ -10,6 +10,7 @@
       <th scope="col">Brief Description</th>
       <th scope="col">Status</th>
       <th scope="col">Person Responsible</th>
+      <th scope="col">Last Updated</th>
       <th style="display: none;"></th>
       <th style="display: none;"></th>
     </tr>
@@ -24,6 +25,7 @@
       <td class="bug-name" data-toggle="modal" data-target="#bugModal">{{ bug.name }}</td>
       <td class="bug-status" data-toggle="modal" data-target="#bugModal" data-order="{{ bug.status.id }}">{{ bug.status.name }}</td>
       <td class="bug-assignee" data-toggle="modal" data-target="#bugModal">{{ bug.assigned_member.name }}</td>
+      <td class="bug-last-updated" data-toggle="modal" data-target="#bugModal">{{ bug.last_updated }}</td>
       <td class="bug-description" style="display: none;">{{ bug.description }}</span>
       <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</span>
     </tr>
