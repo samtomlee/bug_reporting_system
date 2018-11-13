@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, g
-from app.database import get_db
 from app.bug import get_bugs, update_bug
 from app.status import get_all_statuses
 from app.severity import get_all_severities
