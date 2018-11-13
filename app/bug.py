@@ -20,6 +20,20 @@ class Bug:
 		self.submission_time = data['submission_time']
 		self.last_updated = data['last_updated']
 
+	def json(self):
+		return {
+			'id': self.id,
+			'name': self.name,
+			'description': self.description,
+			'status': self.status.name,
+			'assigned_member': self.assigned_member.name,
+			'type': self.type,
+			'severity': self.severity.name,
+			'submitter_email': self.submitter_email,
+			'submission_time': self.submission_time,
+			'last_updated': self.last_updated
+		}
+
 def create_bug(name, description, status, bug_type, submitter_email):
 	db = get_db()
 	cur = db.cursor()
@@ -115,4 +129,6 @@ def submit_bug_form():
 def request_bug():
 	data = request.get_json()
 	bugs = get_bugs(data)
-	return jsonify(bugs)
+	json = [bug.json() for bug in bugs]
+	print(json)
+	return jsonify(json)

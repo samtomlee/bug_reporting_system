@@ -74,15 +74,22 @@
             modal.find(".bug-severity").html(bugRow.find(".bug-severity").html());
             modal.find(".modal-title").html(bugRow.find(".bug-name").html());
             modal.find(".bug-email").html(bugRow.find(".bug-email").html());
-
-            fetch('bug/search', {
-              method: 'POST',
-              body: {
-
-              }
-            })
           });
         });
+
+        function getBugs(filters) {
+          fetch("{{ url_for('bug.request_bug')}}", {
+            method: 'POST',
+            headers: {
+              "Content-Type": 'application/json'
+            },
+            body: JSON.stringify(filters)
+          }).then(res => res.json())
+          .then(res => {
+            return res;
+          });
+        }
+
         function generateReport() {
           var prtContent = document.getElementById("report");
           var WinPrint = window.open('', '', 'left=0,top=0,width=700,height=450,toolbar=0,scrollbars=0,status=0');
