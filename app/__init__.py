@@ -98,8 +98,10 @@ def create_app(test_config=None):
 				error = 'Invalid Credentials. Please try again.'
 			else:
 				session['logged_in'] = True
+				session['user_type'] = type_user
 				user = str(id_user)
 				nextUrl = ('/' + type_user.lower() + '/' + user)
+				session['user_url'] = nextUrl
 				return redirect(nextUrl)
 		return render_template('login.html', error=error)
 
@@ -108,6 +110,8 @@ def create_app(test_config=None):
 	#@login_required <-- look into this tag?
 	def logout():
 		session.pop('logged_in', None)
+		session.pop('user_type', None)
+		session.pop('user_url', None)
 		return redirect('/report')
 
 	if __name__== "__main__":

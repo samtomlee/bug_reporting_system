@@ -4,98 +4,100 @@
 {% block header %}Manager{% endblock %}
 
 {% block content %}
-    <div class="row">
-     <div class="col-md-9">
-      {% include 'table.html' %}
+<div class="row">
+    <div class="col-md-9">
+        {% include 'table.html' %}
     </div>
 
     <div class="col-md-3">
-      <!-- Column of Manager specific functions -->
-      <h4><b>Manager Functions</b></h4>
-      <form>
-        <div class="form-group">
-          <label for="assignee">Bug Assignee</label>
-          <!-- to be populated from the SQL database-->
-          <select class="form-control" id="assignee">
-            {% for assignee in assignees %}
-            <option value="{{ assignee.email }}">{{ assignee.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="center-block">
-          <button type="button" class="btn" onclick="assignBug()">Assign Bug</button>
-        </div>
-      </form>
-      <br>
-      <form>
-        <div class="form-group">
-          <label for="changed-status">Bug Status</label>
-          <!-- to be populated from the SQL database -->
-          <select class="form-control" id="changed-status">
-            {% for status in statuses %}
-            <option value = "{{ status.name }}">{{ status.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-        <div class="center-block">
-          <button type="button" class="btn" onclick="changeStatus()">Change Status</button>
-        </div>
-      </form>
+        <!-- Column of Manager specific functions -->
+        <h4><b>Manager Functions</b></h4>
+        <form>
+            <div class="form-group">
+                <label for="assignee">Bug Assignee</label>
+                <!-- to be populated from the SQL database-->
+                <select class="form-control" id="assignee">
+                    {% for assignee in assignees %}
+                    <option value="{{ assignee.email }}">{{ assignee.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="center-block">
+                <button type="button" class="btn" onclick="assignBug()">Assign Bug</button>
+            </div>
+        </form>
+        <br>
+        <form>
+            <div class="form-group">
+                <label for="changed-status">Bug Status</label>
+                <!-- to be populated from the SQL database -->
+                <select class="form-control" id="changed-status">
+                    {% for status in statuses %}
+                    <option value = "{{ status.name }}">{{ status.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="center-block">
+                <button type="button" class="btn" onclick="changeStatus()">Change Status</button>
+            </div>
+        </form>
     </div>
-  </div>
+</div>
 
-  <script>
-    function changeStatus() {
-      let stat = document.getElementById("changed-status");
-      let toChange = document.getElementsByClassName("bugEntry");
-      let promises = [];
+<script>
+function changeStatus() {
+    let stat = document.getElementById("changed-status");
+    let toChange = document.getElementsByClassName("bugEntry");
+    let promises = [];
 
-      for (let elem of toChange) {
+    for (let elem of toChange) {
         if (elem.checked) {
-          promises.push(
-            fetch('/bug/update', {
-              method: "POST",
-              headers: {
-                "Content-Type": 'application/json'
-              },
-              body: JSON.stringify({
-                status: stat.value,
-                bug_id: elem.value
-              })
-            })
-          );
+            promises.push(
+                fetch('/bug/update', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify({
+                        status: stat.value,
+                        bug_id: elem.value
+                    })
+                })
+            );
         }
 
         Promise.all(promises).then(() => {
-          window.location.reload();
+            window.location.reload();
         });
-      }
     }
-    function assignBug(){
-      let person = document.getElementById("assignee");
-      let toChange = document.getElementsByClassName("bugEntry");
-      let promises = [];
+}
+function assignBug(){
+    let person = document.getElementById("assignee");
+    let toChange = document.getElementsByClassName("bugEntry");
+    let promises = [];
 
-      for (let elem of toChange) {
+    for (let elem of toChange) {
         if (elem.checked) {
-          promises.push(
-            fetch('/bug/update', {
-              method: "POST",
-              headers: {
-                "Content-Type": 'application/json'
-              },
-              body: JSON.stringify({
-                assigned_member: person.value,
-                bug_id: elem.value
-              })
-            })
-          );
+            promises.push(
+                fetch('/bug/update', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify({
+                        assigned_member: person.value,
+                        bug_id: elem.value
+                    })
+                })
+            );
         }
-      }
-
-      Promise.all(promises).then(() => {
-        window.location.reload();
-      });
     }
-  </script>
+
+    Promise.all(promises).then(() => {
+        window.location.reload();
+    });
+}
+
+
+</script>
 {% endblock %}
