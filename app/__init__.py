@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, redirect, url_for, request, render_template, session, flash
+from flask import Flask, redirect, url_for, request, render_template, session
 from . import bug
 import flask_login
 import hashlib
@@ -57,25 +57,32 @@ def create_app(test_config=None):
 	from . import faq
 	app.register_blueprint(faq.bp)
 
+	# login functionality
 	from app.database import get_db
-	#login functionality
+	from app.user import get_user_type, get_user_type_from_email, get_user_id_from_email
+
 	def check_password(hashed_password, user_password):
+		print(hashlib.md5(user_password.encode()).hexdigest())
 		return hashed_password == hashlib.md5(user_password.encode()).hexdigest()
 
 	def validate(username, password):
 		#how to access the user database?
 		con = get_db()
 		completion = False
+		user = 0
 		with con:
 			cur = con.cursor()
 			cur.execute("SELECT * FROM user")
 			rows = cur.fetchall()
 			for row in rows:
-				dbUser = row[0]
-				dbPass = row[1]
+				dbUser = row[2]
+				dbPass = row[3]
 				if dbUser==username:
 					completion=check_password(dbPass, password)
-					return completion
+					if completion:
+						id_user=get_user_id_from_email(username)
+						type_user=get_user_type_from_email(username)
+		return (completion, id_user, type_user)
 
 	login_manager = flask_login.LoginManager()
 	login_manager.init_app(app)
@@ -84,20 +91,23 @@ def create_app(test_config=None):
 	def login():
 		error = None
 		if request.method == 'POST':
-			if(validate(request.form['username'], request.form['password']) == False):
+			isValid, id_user, type_user = validate(request.form['username'], request.form['password'])
+			# isValid = validate(request.form['username'], request.form['password'])
+			# id_user = 1
+			if(isValid == False):
 				error = 'Invalid Credentials. Please try again.'
 			else:
 				session['logged_in'] = True
-				flash('You were logged in.')
-				return redirect('/history')
+				user = str(id_user)
+				nextUrl = ('/' + type_user.lower() + '/' + user)
+				return redirect(nextUrl)
 		return render_template('login.html', error=error)
 
 
 	@app.route('/logout')
-	#@login_required <-- look into this tag
+	#@login_required <-- look into this tag?
 	def logout():
 		session.pop('logged_in', None)
-		flash('You were logged out.')
 		return redirect('/report')
 
 	if __name__== "__main__":

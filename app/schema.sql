@@ -79,10 +79,10 @@ VALUES
 INSERT INTO user (user_id, name, email, password, usertype_id)
 VALUES
 	(0, "Unassigned", "Unassigned", "", 0),
-	(1, "Manny Manager", "mmanager@scu.edu", "mp@ssword", 1),
-	(2, "Test Testerson", "ttesterson@scu.edu", "tp@ssword", 2),
-	(3, "Dev Guy", "dguy@scu.edu", "dp@ssword", 3),
-	(4, "Dev Gal", "dgal@scu.edu", "dp@ssword", 3);
+	(1, "Manny Manager", "mmanager@scu.edu", "53d716475f43d02fd749892f5e6da70d", 1),
+	(2, "Test Testerson", "ttesterson@scu.edu", "455092ea2f83ac567d022a3f76ca85ec", 2),
+	(3, "Dev Guy", "dguy@scu.edu", "d6305cce947cbed4923451aa7daaf977", 3),
+	(4, "Dev Gal", "dgal@scu.edu", "d6305cce947cbed4923451aa7daaf977", 3);
 
 INSERT INTO usertype (name)
 VALUES

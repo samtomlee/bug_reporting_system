@@ -11,6 +11,11 @@ def get_user_type_id(name):
 	cur = get_db().cursor()
 	return cur.execute('SELECT * FROM usertype WHERE name=?', (name,)).fetchone()['usertype_id']
 
+def get_user_type_from_email(email):
+	cur = get_db().cursor()
+	user = get_user_from_email(email)
+	return get_user_type(user.usertype_id)
+
 def get_user_type(user_type_id):
 	cur = get_db().cursor()
 	return cur.execute('SELECT * FROM usertype WHERE usertype_id=?', (user_type_id,)).fetchone()['name']
@@ -18,6 +23,11 @@ def get_user_type(user_type_id):
 def get_user_id_from_email(email):
 	cur = get_db().cursor()
 	return cur.execute('SELECT * FROM user WHERE email=?', (email,)).fetchone()['user_id']
+
+def get_user_from_email(email):
+	cur = get_db().cursor()
+	id = get_user_id_from_email(email)
+	return get_user(id)
 
 def get_user(user_id):
 	cur = get_db().cursor()
