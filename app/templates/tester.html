@@ -18,7 +18,7 @@
               <label for="changed-severity">Severity</label>
               <select class="form-control" id="changed-severity">
                 {% for severity in severities %}
-                <option value = "{{ severity }}">{{ severity }}</option>
+                <option value = "{{ severity.name }}">{{ severity.name }}</option>
                 {% endfor %}
               </select>
             </div>
@@ -31,7 +31,7 @@
               <label for="changed-status">Bug Status</label>
               <select class="form-control" id="changed-status">
                 {% for status in statuses %}
-                <option value = "{{ status }}">{{ status}}</option>
+                <option value = "{{ status.name }}">{{ status.name }}</option>
                 {% endfor %}
               </select>
             </div>
