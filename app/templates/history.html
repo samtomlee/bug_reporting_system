@@ -7,8 +7,11 @@
   <div class="row">
     <div class="col-md-12">
       <!-- Table of Bugs -->
-      <h4><b>Current Bugs</b><button style="float: right;" onclick="generateReport()">Print Report</button></h4>
-
+      <h4><b>Current Bugs</b>
+        {% if session['user_type'] == "Manager" %}
+        <button style="float: right;" onclick="generateReport()" >Print Report</button>
+        {% endif %}
+        </h4>
       <div id="report">
       <table class="table" id="bugs">
         <thead>
@@ -30,15 +33,16 @@
             <td class="bug-name" >{{ bug.name }}</td>
             <td class="bug-status" >{{ bug.status.name }}</td>
             <td class="bug-assignee" >{{ bug.assigned_member.name }}</td>
-            <td class="bug-description" style="display: none;">{{ bug.description }}</span>
-            <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</span>
+            <td class="bug-updated" style="display: none;">{{ bug.last_updated }}</td>
+            <td class="bug-description" style="display: none;">{{ bug.description }}</td>
+            <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</td>
           </tr>
         {% endfor %}
         </tbody>
       </table>
       </div>
 
-
+      <!-- Modal specific to the history tab -->
       <div id="bugModal" class="modal fade" role="dialog">
         <div class="modal-dialog modal-dialog-centered">
           <!-- Modal content-->
@@ -51,7 +55,8 @@
               <div><b>Severity: </b><span class="bug-severity">severity</span></div>
               <div><b>Bug Type: </b><span class="bug-type">bug type</span></div>
               <div><b>Status: </b><span class="bug-status">status</span></div>
-              <div><b>Contact Info: </b><span class="bug-email">email</span></div>
+              <div><b>Last Updated: </b><span class="bug-updated">update time</span></div>
+              <div><b>Assigned To: </b><span class="bug-assignee">email</span></div>
               <div><b>Description: </b><p class="bug-description">description</p></div>
             </div>
             <div class="modal-footer">
@@ -72,8 +77,8 @@
             modal.find(".bug-description").html(bugRow.find(".bug-description").html());
             modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
             modal.find(".bug-severity").html(bugRow.find(".bug-severity").html());
+            modal.find(".bug-updated").html(bugRow.find(".bug-updated").html());
             modal.find(".modal-title").html(bugRow.find(".bug-name").html());
-            modal.find(".bug-email").html(bugRow.find(".bug-email").html());
           });
         });
 
@@ -89,8 +94,7 @@
             return res;
           });
         }
-
-        function generateReport() {
+      function generateReport() {
           var prtContent = document.getElementById("report");
           var WinPrint = window.open('', '', 'left=0,top=0,width=700,height=450,toolbar=0,scrollbars=0,status=0');
           WinPrint.document.write(prtContent.innerHTML);
@@ -98,7 +102,7 @@
           WinPrint.focus();
           WinPrint.print();
           WinPrint.close();
-        }
+      }
       </script>
     </div>
   </div>
