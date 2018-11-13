@@ -1,7 +1,9 @@
 import os
 
-from flask import Flask, redirect, url_for
+from flask import Flask, redirect, url_for, request, render_template, session, flash
 from . import bug
+import flask_login
+import hashlib
 
 def create_app(test_config=None):
 	# create and configure the app
@@ -51,5 +53,55 @@ def create_app(test_config=None):
 
 	from . import home
 	app.register_blueprint(home.bp)
+
+	#login functionality
+	def check_password(hashed_password, user_password):
+		return hashed_password == hashlib.md5(user_password.encode()).hexdigest()
+
+
+	def validate(username, password):
+		#how to access the user database?
+		con = DATABASE
+		completion = False
+		with con:
+			cur = con.cursor()
+			cur.execute("SELECT * FROM user")
+			rows = cur.fetchall()
+			for row in rows:
+				dbUser = row[0]
+				dbPass = row[1]
+				if dbUser==username:
+					completion=check_password(dbPass, password)
+					return completion
+
+	login_manager = flask_login.LoginManager()
+	login_manager.init_app(app)
+
+	@app.route('/login', methods=['GET', 'POST'])
+	def login():
+	    error = None
+	    if request.method == 'POST':
+			# username = request.form['username']
+			# password = request.form['password']
+	        if (request.form['username'] != 'admin') \
+	                or request.form['password'] != 'admin':
+			# if(validate(username, password) == False):
+	            error = 'Invalid Credentials. Please try again.'
+	        else:
+	            session['logged_in'] = True
+	            flash('You were logged in.')
+	            return redirect('/history')
+	    return render_template('login.html', error=error)
+
+
+	@app.route('/logout')
+	#@login_required <-- look into this tag
+	def logout():
+	    session.pop('logged_in', None)
+	    flash('You were logged out.')
+	    return redirect('/report')
+
+	if __name__== "__main__":
+		app.run()
 
 	return app

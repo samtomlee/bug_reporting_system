@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS user;
 DROP TABLE IF EXISTS status;
 DROP TABLE IF EXISTS bugtype;
 DROP TABLE IF EXISTS severity;
+DROP TABLE IF EXISTS usertype;
 
 -- Create tables
 CREATE TABLE bug (
@@ -25,7 +26,9 @@ CREATE TABLE bug (
 CREATE TABLE user (
 	user_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name TEXT NOT NULL,
-	email TEXT NOT NULL
+	email TEXT NOT NULL,
+	password TEXT NOT NULL,
+	FOREIGN KEY(usertype_id) REFERENCES usertype(usertype_id)
 );
 
 CREATE TABLE status (
@@ -40,6 +43,11 @@ CREATE TABLE bugtype (
 
 CREATE TABLE severity(
 	severity_id INTEGER PRIMARY KEY AUTOINCREMENT,
+	name TEXT NOT NULL
+);
+
+CREATE TABLE usertype(
+	usertype_id INTEGER PRIMARY KEY AUTOINCREMENT,
 	name TEXT NOT NULL
 );
 
@@ -67,8 +75,16 @@ VALUES
 	("Medium"),
 	("High");
 
-INSERT INTO user (user_id, name, email)
+INSERT INTO user (user_id, name, email, password, usertype_id)
 VALUES
-	(0, "Unassigned", "Unassigned"),
-	(1, "Test Testerson", "ttesterson@scu.edu"),
-	(2, "Dev Guy", "dguy@scu.edu");
+	(0, "Unassigned", "Unassigned", "", 0),
+	(1, "Manny Manager", "mmanager@scu.edu", "mp@ssword", 1)
+	(2, "Test Testerson", "ttesterson@scu.edu", "tp@ssword", 2),
+	(3, "Dev Guy", "dguy@scu.edu", "dp@ssword", 3),
+	(4, "Dev Guy 2", "dguy1@scu.edu", "dp@ssword", 3);
+
+INSERT INTO usertype (name)
+VALUES
+	("Manager"),
+	("Tester"),
+	("Developer");
