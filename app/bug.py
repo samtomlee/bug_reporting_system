@@ -3,7 +3,7 @@ from .status import get_status_id, get_status
 from .severity import get_severity_id, get_severity
 from .bug_type import get_bug_type_id, get_bug_type
 from .user import get_user_id_from_email, get_user
-from flask import Blueprint, request
+from flask import Blueprint, request, jsonify
 
 bp = Blueprint('bug', __name__, url_prefix='/bug')
 
@@ -110,3 +110,9 @@ def submit_bug_form():
 	data = request.get_json()
 	create_bug(data['name'], data['description'], 'Submitted', data['bugtype'], data['email'])
 	return "Bug report submitted"
+
+@bp.route('/search', methods=('POST',))
+def request_bug():
+	data = request.get_json()
+	bugs = get_bugs(data)
+	return jsonify(bugs)

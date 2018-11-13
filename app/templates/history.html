@@ -25,10 +25,10 @@
         {% for bug in bugs %}
           <tr class="bug-row" data-toggle="modal" data-target="#bugModal">
             <td class="bug-id" >{{ bug.id }}</td>
-            <td class="bug-severity" >{{ bug.severity }}</td>
+            <td class="bug-severity" >{{ bug.severity.name }}</td>
             <td class="bug-type" >{{ bug.type }}</td>
             <td class="bug-name" >{{ bug.name }}</td>
-            <td class="bug-status" >{{ bug.status }}</td>
+            <td class="bug-status" >{{ bug.status.name }}</td>
             <td class="bug-assignee" >{{ bug.assigned_member.name }}</td>
             <td class="bug-description" style="display: none;">{{ bug.description }}</span>
             <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</span>
@@ -74,6 +74,13 @@
             modal.find(".bug-severity").html(bugRow.find(".bug-severity").html());
             modal.find(".modal-title").html(bugRow.find(".bug-name").html());
             modal.find(".bug-email").html(bugRow.find(".bug-email").html());
+
+            fetch('bug/search', {
+              method: 'POST',
+              body: {
+
+              }
+            })
           });
         });
         function generateReport() {
