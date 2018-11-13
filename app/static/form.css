@@ -12,8 +12,10 @@
 	width: 220px;
 	padding: 3px;
 }
-.nav-link {
-	border-left: 1px dotted #bfbfbf;
+@media (min-width: 768px) {
+	.nav-link {
+		border-left: 1px dotted #bfbfbf;
+	}
 }
 button {
 	background-color: #b30738;
