@@ -62,14 +62,14 @@ def create_app(test_config=None):
 	from app.user import get_user_type, get_user_type_from_email, get_user_id_from_email
 
 	def check_password(hashed_password, user_password):
-		print(hashlib.md5(user_password.encode()).hexdigest())
 		return hashed_password == hashlib.md5(user_password.encode()).hexdigest()
 
 	def validate(username, password):
 		#how to access the user database?
 		con = get_db()
 		completion = False
-		user = 0
+		id_user = 0
+		type_user = 0
 		with con:
 			cur = con.cursor()
 			cur.execute("SELECT * FROM user")
