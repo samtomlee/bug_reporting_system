@@ -69,6 +69,12 @@
       modal.find(".modal-title").html(bugRow.find(".bug-name").html());
       modal.find(".bug-email").html(bugRow.find(".bug-email").html());
     });
+
+    $("#bugs").DataTable({
+      order: [[1, "asc"]],
+      columnDefs: [
+        { "orderable": false, "targets": 0 }
+      ]
+    });
   });
-  $("#bugs").dataTable();
 </script>

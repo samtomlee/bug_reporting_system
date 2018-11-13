@@ -55,6 +55,14 @@ CREATE TABLE usertype(
 
 -- Add default data
 
+INSERT INTO bug
+	(name, description, status_id, assignedmember_id, bugtype_id, severity_id, submitter_email)
+VALUES
+	("eCampus is too slow", "I can't sign up for classes because eCampus is too slow.", 3, 2, 1, 4, "abc@scu.edu"),
+	("Cannot log in to Camino", "I don't remember my password.", 1, 2, 2, 2, "def@scu.edu"),
+	("SCU Portal is not usable on mobile", "Everything is too big.", 2, 3, 3, 3, "ghi@scu.edu");
+
+
 INSERT INTO status (name)
 VALUES
 	("Submitted"),
