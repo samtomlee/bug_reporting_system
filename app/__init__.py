@@ -54,14 +54,17 @@ def create_app(test_config=None):
 	from . import home
 	app.register_blueprint(home.bp)
 
+	from . import faq
+	app.register_blueprint(faq.bp)
+
+	from app.database import get_db
 	#login functionality
 	def check_password(hashed_password, user_password):
 		return hashed_password == hashlib.md5(user_password.encode()).hexdigest()
 
-
 	def validate(username, password):
 		#how to access the user database?
-		con = DATABASE
+		con = get_db()
 		completion = False
 		with con:
 			cur = con.cursor()
@@ -79,27 +82,23 @@ def create_app(test_config=None):
 
 	@app.route('/login', methods=['GET', 'POST'])
 	def login():
-	    error = None
-	    if request.method == 'POST':
-			# username = request.form['username']
-			# password = request.form['password']
-	        if (request.form['username'] != 'admin') \
-	                or request.form['password'] != 'admin':
-			# if(validate(username, password) == False):
-	            error = 'Invalid Credentials. Please try again.'
-	        else:
-	            session['logged_in'] = True
-	            flash('You were logged in.')
-	            return redirect('/history')
-	    return render_template('login.html', error=error)
+		error = None
+		if request.method == 'POST':
+			if(validate(request.form['username'], request.form['password']) == False):
+				error = 'Invalid Credentials. Please try again.'
+			else:
+				session['logged_in'] = True
+				flash('You were logged in.')
+				return redirect('/history')
+		return render_template('login.html', error=error)
 
 
 	@app.route('/logout')
 	#@login_required <-- look into this tag
 	def logout():
-	    session.pop('logged_in', None)
-	    flash('You were logged out.')
-	    return redirect('/report')
+		session.pop('logged_in', None)
+		flash('You were logged out.')
+		return redirect('/report')
 
 	if __name__== "__main__":
 		app.run()

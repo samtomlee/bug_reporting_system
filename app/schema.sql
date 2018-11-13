@@ -28,6 +28,7 @@ CREATE TABLE user (
 	name TEXT NOT NULL,
 	email TEXT NOT NULL,
 	password TEXT NOT NULL,
+	usertype_id INTEGER NOT NULL,
 	FOREIGN KEY(usertype_id) REFERENCES usertype(usertype_id)
 );
 
@@ -78,10 +79,10 @@ VALUES
 INSERT INTO user (user_id, name, email, password, usertype_id)
 VALUES
 	(0, "Unassigned", "Unassigned", "", 0),
-	(1, "Manny Manager", "mmanager@scu.edu", "mp@ssword", 1)
+	(1, "Manny Manager", "mmanager@scu.edu", "mp@ssword", 1),
 	(2, "Test Testerson", "ttesterson@scu.edu", "tp@ssword", 2),
 	(3, "Dev Guy", "dguy@scu.edu", "dp@ssword", 3),
-	(4, "Dev Guy 2", "dguy1@scu.edu", "dp@ssword", 3);
+	(4, "Dev Gal", "dgal@scu.edu", "dp@ssword", 3);
 
 INSERT INTO usertype (name)
 VALUES
