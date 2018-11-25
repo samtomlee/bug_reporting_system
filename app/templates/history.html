@@ -9,11 +9,11 @@
       <!-- Table of Bugs -->
       <h4><b>Current Bugs</b>
         {% if session['user_type'] == "Manager" %}
-        <button style="float: right;" onclick="generateReport()" >Print Report</button>
+        <button style="float: right;" onclick="generateReport()">Print Report</button>
         {% endif %}
         </h4>
       <div id="report">
-      <table class="table" id="bugs">
+      <table class="table" id="bugs" style="width:100%">
         <thead>
           <tr>
             <th scope="col">ID #</th>
@@ -22,6 +22,9 @@
             <th scope="col">Brief Description</th>
             <th scope="col">Status</th>
             <th scope="col">Person Responsible</th>
+            <th scope="col">Last Updated</th>
+            <th style="display: none;"></th>
+            <th style="display: none;"></th>
           </tr>
         </thead>
         <tbody>
@@ -33,7 +36,7 @@
             <td class="bug-name" >{{ bug.name }}</td>
             <td class="bug-status" >{{ bug.status.name }}</td>
             <td class="bug-assignee" >{{ bug.assigned_member.name }}</td>
-            <td class="bug-updated" style="display: none;">{{ bug.last_updated }}</td>
+            <td class="bug-updated" >{{ bug.last_updated }}</td>
             <td class="bug-description" style="display: none;">{{ bug.description }}</td>
             <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</td>
           </tr>
@@ -79,6 +82,13 @@
             modal.find(".bug-severity").html(bugRow.find(".bug-severity").html());
             modal.find(".bug-updated").html(bugRow.find(".bug-updated").html());
             modal.find(".modal-title").html(bugRow.find(".bug-name").html());
+          });
+
+          $("#bugs").DataTable({
+            order: [[1, "asc"]],
+            columnDefs: [
+              { "orderable": false, "targets": 0 }
+            ]
           });
         });
 
