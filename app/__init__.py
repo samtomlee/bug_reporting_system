@@ -33,8 +33,8 @@ def create_app(test_config=None):
 	app.register_blueprint(report.bp)
 
 	@app.route('/')
-	def home_redirect():
-		return redirect(url_for('report.get_report_form'))
+	def get_home():
+		return render_template('home.html')
 
 	from . import developer
 	app.register_blueprint(developer.bp)
