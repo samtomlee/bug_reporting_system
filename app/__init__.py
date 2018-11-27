@@ -54,6 +54,9 @@ def create_app(test_config=None):
 	from . import faq
 	app.register_blueprint(faq.bp)
 
+	from . import contact
+	app.register_blueprint(contact.bp)
+
 	# login functionality
 
 	login_manager = flask_login.LoginManager()
