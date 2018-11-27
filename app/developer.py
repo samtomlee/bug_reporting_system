@@ -5,6 +5,10 @@ from app.severity import get_all_severities
 
 bp = Blueprint('dev', __name__, url_prefix='/developer')
 
+@bp.route('/', methods=('GET',))
+def get_dev_page_none():
+	return render_template('not_found.html')
+
 @bp.route('/<user_id>', methods=('GET',))
 def get_dev_page(user_id):
 	if(session.get('user_type') and session['user_type'] == "Developer"):
