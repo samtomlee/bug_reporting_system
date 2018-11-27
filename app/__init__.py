@@ -9,7 +9,7 @@ def create_app(test_config=None):
 	# create and configure the app
 	app = Flask(__name__, instance_relative_config=True)
 	app.config.from_mapping(
-		SECRET_KEY = 'supersecret',
+		SECRET_KEY = '?[Bz_?ٮ??`&?W[',
 		DATABASE = os.path.join(app.instance_path, 'db.sqlite'),
 	)
 
@@ -51,40 +51,8 @@ def create_app(test_config=None):
 	from . import history
 	app.register_blueprint(history.bp)
 
-	from . import home
-	app.register_blueprint(home.bp)
-
 	from . import faq
 	app.register_blueprint(faq.bp)
-
-	# # login functionality
-	# from app.database import get_db
-	# from app.user import get_user_type, get_user_type_from_email, get_user_id_from_email
-	#
-	# def check_password(hashed_password, user_password):
-	# 	return hashed_password == hashlib.md5(user_password.encode()).hexdigest()
-	#
-	# def validate(username, password):
-	# 	#how to access the user database?
-	# 	con = get_db()
-	# 	completion = False
-	# 	id_user = 0
-	# 	type_user = 0
-	# 	with con:
-	# 		cur = con.cursor()
-	# 		cur.execute("SELECT * FROM user")
-	# 		rows = cur.fetchall()
-	# 		for row in rows:
-	# 			dbUser = row[2]
-	# 			dbPass = row[3]
-	# 			if dbUser==username:
-	# 				completion=check_password(dbPass, password)
-	# 				if completion:
-	# 					id_user=get_user_id_from_email(username)
-	# 					type_user=get_user_type_from_email(username)
-	# 	return (completion, id_user, type_user)
-	#
-	# import app.login
 
 	login_manager = flask_login.LoginManager()
 	login_manager.init_app(app)
@@ -92,12 +60,9 @@ def create_app(test_config=None):
 	@app.route('/login', methods=['GET', 'POST'])
 	def login():
 		from app.login import validate
-
 		error = None
 		if request.method == 'POST':
 			isValid, id_user, type_user = validate(request.form['username'], request.form['password'])
-			# isValid = validate(request.form['username'], request.form['password'])
-			# id_user = 1
 			if(isValid == False):
 				error = 'Invalid Credentials. Please try again.'
 			else:
