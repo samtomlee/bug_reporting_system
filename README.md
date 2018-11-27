@@ -3,6 +3,7 @@ COEN 174 Lab Project: Creating a Bug Reporting System
 
 ## Setup
 ```sh
+setup python3
 python3 -m venv venv
 . venv/bin/activate
 pip install flask flask-login
