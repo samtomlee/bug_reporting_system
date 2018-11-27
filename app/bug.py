@@ -1,3 +1,6 @@
+# This file contains the definition for the Bug model, functions to work with bugs,
+# and sets up the endpoints for web requests that change bugs
+
 from .database import get_db
 from .status import get_status_id, get_status
 from .severity import get_severity_id, get_severity
@@ -7,7 +10,12 @@ from flask import Blueprint, request, jsonify
 
 bp = Blueprint('bug', __name__, url_prefix='/bug')
 
+# Bug class containing information about a bug
 class Bug:
+	# Contructor
+	# Parameters:
+	#	data - a dictionary which should contain the data needed
+	#		to create the bug
 	def __init__(self, data):
 		self.id = data['bug_id']
 		self.name = data['name']
@@ -20,6 +28,7 @@ class Bug:
 		self.submission_time = data['submission_time']
 		self.last_updated = data['last_updated']
 
+	# Returns a dictionary with all the bug data
 	def json(self):
 		return {
 			'id': self.id,
@@ -34,6 +43,14 @@ class Bug:
 			'last_updated': self.last_updated
 		}
 
+# Creates a bug entry in the database
+# Paramaters:
+# 	name - the name of the bug
+#	description - a description of the bug
+#	status - the status of the bug
+#	bug_type - the type of the bug
+#	submitter_email - the email of the person who submitted the bug
+# All paramaters should be strings
 def create_bug(name, description, status, bug_type, submitter_email):
 	db = get_db()
 	cur = db.cursor()
@@ -50,11 +67,20 @@ def create_bug(name, description, status, bug_type, submitter_email):
 		)
 	db.commit()
 
+# Gets a bug from an id
+# Parameters:
+#	bug_id (number) - the id of the bug
+# Returns:
+#	A Bug object with the bug's data
 def get_bug(bug_id):
 	cur = get_db().cursor()
 	data = cur.execute('SELECT * FROM bug WHERE bug_id=?', ((bug_id),)).fetchone()
 	return Bug(data)
 
+# Get several bugs
+# Parameters:
+#	filters (dict) - optional dictionary used to restrict which bugs are retrieved
+# Returns: A list of all bug objects that match the filters
 def get_bugs(filters = {}):
 	cur = get_db().cursor()
 	query = "SELECT * FROM bug"
@@ -77,6 +103,11 @@ def get_bugs(filters = {}):
 
 	return bugs
 
+# Update a bugs data
+# Parameters:
+#	bug_id (number) - the id of the bug
+#	new_data (dict) - data that should be changed
+# Any properties not in new_data will not be changed
 def update_bug(bug_id, new_data):
 	db = get_db()
 	cur = db.cursor()
@@ -111,6 +142,7 @@ def update_bug(bug_id, new_data):
 	cur.execute(query, values)
 	db.commit()
 
+# Endpoint for updating a bug
 @bp.route('/update', methods=('POST',))
 def submit_bug_change():
 	data = request.get_json()
@@ -119,12 +151,14 @@ def submit_bug_change():
 	update_bug(bug_id, data)
 	return "Bug updated"
 
+# Endpoint for creating a bug
 @bp.route('/create', methods=('POST',))
 def submit_bug_form():
 	data = request.get_json()
 	create_bug(data['name'], data['description'], 'Submitted', data['bugtype'], data['email'])
 	return "Bug report submitted"
 
+# Endpoint for searching for several bugs
 @bp.route('/search', methods=('POST',))
 def request_bug():
 	data = request.get_json()

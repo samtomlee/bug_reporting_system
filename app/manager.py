@@ -1,3 +1,5 @@
+# Blueprint for the manager user page
+
 from flask import Blueprint, render_template, request, g, session
 from app.database import get_db
 from app.bug import get_bugs
@@ -10,6 +12,7 @@ bp = Blueprint('manager', __name__, url_prefix='/manager')
 def get_manage_page_none():
 	return render_template('not_found.html')
 
+# Create endpoint for the user page using its id
 @bp.route('/<user_id>', methods=('GET',))
 def get_manage_page(user_id):
 	if(session.get('user_type') and session['user_type'] == "Manager"):
