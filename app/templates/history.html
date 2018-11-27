@@ -4,116 +4,111 @@
 {% block header %}Bug History{% endblock %}
 
 {% block content %}
-  <div class="row">
+<div class="row">
     <div class="col-lg-12">
-      <!-- Table of Bugs -->
-      <h4><b>Current Bugs</b>
-        {% if session['user_type'] == "Manager" %}
-        <button style="float: right;" onclick="generateReport()">Print Report</button>
-        {% endif %}
+        <!-- Table of Bugs -->
+        <h4><b>Current Bugs</b>
+            {% if session['user_type'] == "Manager" %}
+            <button style="float: right;" onclick="generateReport()">Print Report</button>
+            {% endif %}
         </h4>
-      <div id="report">
-      <table class="table" id="bugs" style="width:100%">
-        <thead>
-          <tr>
-            <th scope="col">ID #</th>
-            <th scope="col">Severity</th>
-            <th scope="col">Bug Type</th>
-            <th scope="col">Brief Description</th>
-            <th scope="col">Status</th>
-            <th scope="col">Person Responsible</th>
-            <th scope="col">Last Updated</th>
-            <th style="display: none;"></th>
-            <th style="display: none;"></th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for bug in bugs %}
-          <tr class="bug-row" data-toggle="modal" data-target="#bugModal">
-            <td class="bug-id" >{{ bug.id }}</td>
-            <td class="bug-severity" >{{ bug.severity.name }}</td>
-            <td class="bug-type" >{{ bug.type }}</td>
-            <td class="bug-name" >{{ bug.name }}</td>
-            <td class="bug-status" >{{ bug.status.name }}</td>
-            <td class="bug-assignee" >{{ bug.assigned_member.name }}</td>
-            <td class="bug-updated" >{{ bug.last_updated }}</td>
-            <td class="bug-description" style="display: none;">{{ bug.description }}</td>
-            <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-      </div>
-
-      <!-- Modal specific to the history tab -->
-      <div id="bugModal" class="modal fade" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-          <!-- Modal content-->
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">bug name</h4>
-              <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-              <div><b>Severity: </b><span class="bug-severity">severity</span></div>
-              <div><b>Bug Type: </b><span class="bug-type">bug type</span></div>
-              <div><b>Status: </b><span class="bug-status">status</span></div>
-              <div><b>Last Updated: </b><span class="bug-updated">update time</span></div>
-              <div><b>Assigned To: </b><span class="bug-assignee">email</span></div>
-              <div><b>Description: </b><p class="bug-description">description</p></div>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-          </div>
+        <div id="report">
+            <table class="table" id="bugs" style="width:100%">
+                <thead>
+                    <tr>
+                        <th scope="col">ID #</th>
+                        <th scope="col">Severity</th>
+                        <th scope="col">Bug Type</th>
+                        <th scope="col">Brief Description</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Person Responsible</th>
+                        <th scope="col">Last Updated</th>
+                        <th style="display: none;"></th>
+                        <th style="display: none;"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for bug in bugs %}
+                    <tr class="bug-row" data-toggle="modal" data-target="#bugModal">
+                        <td class="bug-id" >{{ bug.id }}</td>
+                        <td class="bug-severity" >{{ bug.severity.name }}</td>
+                        <td class="bug-type" >{{ bug.type }}</td>
+                        <td class="bug-name" >{{ bug.name }}</td>
+                        <td class="bug-status" >{{ bug.status.name }}</td>
+                        <td class="bug-assignee" >{{ bug.assigned_member.name }}</td>
+                        <td class="bug-updated" >{{ bug.last_updated }}</td>
+                        <td class="bug-description" style="display: none;">{{ bug.description }}</td>
+                        <td class="bug-email" style="display: none;">{{ bug.submitter_email }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-      </div>
 
-      <script>
+        <!-- Modal specific to the history tab -->
+        <div id="bugModal" class="modal fade" role="dialog">
+            <div class="modal-dialog modal-dialog-centered">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">bug name</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div><b>Severity: </b><span class="bug-severity">severity</span></div>
+                        <div><b>Bug Type: </b><span class="bug-type">bug type</span></div>
+                        <div><b>Status: </b><span class="bug-status">status</span></div>
+                        <div><b>Last Updated: </b><span class="bug-updated">update time</span></div>
+                        <div><b>Assigned To: </b><span class="bug-assignee">email</span></div>
+                        <div><b>Description: </b><p class="bug-description">description</p></div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script>
         $(document).ready(function () {
-          $('.bug-row').on('click', function(e) {
-            var bugRow = $(this);
-            var modal = $('#bugModal');
+            $('.bug-row').on('click', function(e) {
+                var bugRow = $(this);
+                var modal = $('#bugModal');
 
-            modal.find(".bug-type").html(bugRow.find(".bug-type").html());
-            modal.find(".bug-status").html(bugRow.find(".bug-status").html());
-            modal.find(".bug-description").html(bugRow.find(".bug-description").html());
-            modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
-            modal.find(".bug-severity").html(bugRow.find(".bug-severity").html());
-            modal.find(".bug-updated").html(bugRow.find(".bug-updated").html());
-            modal.find(".modal-title").html(bugRow.find(".bug-name").html());
-          });
+                modal.find(".bug-type").html(bugRow.find(".bug-type").html());
+                modal.find(".bug-status").html(bugRow.find(".bug-status").html());
+                modal.find(".bug-description").html(bugRow.find(".bug-description").html());
+                modal.find(".bug-assignee").html(bugRow.find(".bug-assignee").html());
+                modal.find(".bug-severity").html(bugRow.find(".bug-severity").html());
+                modal.find(".bug-updated").html(bugRow.find(".bug-updated").html());
+                modal.find(".modal-title").html(bugRow.find(".bug-name").html());
+            });
 
-          $("#bugs").DataTable({
-            order: [[1, "asc"]],
-            columnDefs: [
-              { "orderable": false, "targets": 0 }
-            ]
-          });
+            $("#bugs").DataTable()
         });
 
         function getBugs(filters) {
-          fetch("{{ url_for('bug.request_bug')}}", {
-            method: 'POST',
-            headers: {
-              "Content-Type": 'application/json'
-            },
-            body: JSON.stringify(filters)
-          }).then(res => res.json())
-          .then(res => {
-            return res;
-          });
+            fetch("{{ url_for('bug.request_bug')}}", {
+                method: 'POST',
+                headers: {
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify(filters)
+            }).then(res => res.json())
+            .then(res => {
+                return res;
+            });
         }
-      function generateReport() {
-          var prtContent = document.getElementById("report");
-          var WinPrint = window.open('', '', 'left=0,top=0,width=700,height=450,toolbar=0,scrollbars=0,status=0');
-          WinPrint.document.write(prtContent.innerHTML);
-          WinPrint.document.close();
-          WinPrint.focus();
-          WinPrint.print();
-          WinPrint.close();
-      }
-      </script>
+        function generateReport() {
+            var prtContent = document.getElementById("report");
+            var WinPrint = window.open('', '', 'left=0,top=0,width=700,height=450,toolbar=0,scrollbars=0,status=0');
+            WinPrint.document.write(prtContent.innerHTML);
+            WinPrint.document.close();
+            WinPrint.focus();
+            WinPrint.print();
+            WinPrint.close();
+        }
+        </script>
     </div>
-  </div>
+</div>
 {% endblock %}

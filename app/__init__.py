@@ -54,6 +54,8 @@ def create_app(test_config=None):
 	from . import faq
 	app.register_blueprint(faq.bp)
 
+	# login functionality
+
 	login_manager = flask_login.LoginManager()
 	login_manager.init_app(app)
 
@@ -74,9 +76,7 @@ def create_app(test_config=None):
 				return redirect(nextUrl)
 		return render_template('login.html', error=error)
 
-
 	@app.route('/logout')
-	#@login_required <-- look into this tag?
 	def logout():
 		session.pop('logged_in', None)
 		session.pop('user_type', None)
