@@ -1,10 +1,11 @@
-import sqlite3
+# Provides functions to interact with the database
 
+import sqlite3
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
 
-
+# Get the database object
 def get_db():
 	if 'db' not in g:
 		g.db = sqlite3.connect(
@@ -15,20 +16,21 @@ def get_db():
 
 	return g.db
 
-
+# Close the database
 def close_db(e=None):
 	db = g.pop('db', None)
 
 	if db is not None:
 		db.close()
 
+# Initialise the database form the schema.sql script
 def init_db():
 	db = get_db()
 
 	with current_app.open_resource('schema.sql') as f:
 		db.executescript(f.read().decode('utf8'))
 
-
+# Setup init-db command
 @click.command('init-db')
 @with_appcontext
 def init_db_command():
@@ -36,6 +38,7 @@ def init_db_command():
 	init_db()
 	click.echo('Initialized the database.')
 
+# Setup db functions with app
 def init_app(app):
 	app.teardown_appcontext(close_db)
 	app.cli.add_command(init_db_command)

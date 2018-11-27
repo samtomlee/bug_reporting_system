@@ -1,3 +1,5 @@
+-- Initialises the database
+
 -- Drop existing tables
 DROP TABLE IF EXISTS bug;
 DROP TABLE IF EXISTS user;
