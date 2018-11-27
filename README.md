@@ -14,5 +14,5 @@ flask init-db
 ```sh
 . venv/bin/activate
 export FLASK_APP=app
-flask run
+flask run --host 0.0.0.0
 ```
