@@ -19,7 +19,6 @@ flask run --host 0.0.0.0
 ```
 
 ## Accessing the website
-\section{Accessing the website}
 When the server is running on an SCU DC linux lab computer it can be accessed from any other lab computer using that computers hostname and the port 5000. Access the address linuxXXXXX.dc.engr.scu.edu:5000 with a browser to visit the website, replacing the X's with the lab computer's number. If you don't know the lab computer's number, type hostname into the terminal. To test authentication, the following accounts are available.
 
 1. Manager
