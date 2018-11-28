@@ -1,3 +1,5 @@
+<!-- HTML template for the developer page -->
+
 {% extends 'base.html' %}
 
 {% block title %}Developer{% endblock %}
@@ -44,6 +46,7 @@
   </div>
 
   <script>
+    // Changes the status of the selected bug
     function changeStatus() {
       let status = document.getElementById("changed-status");
       let toChange = document.getElementsByClassName("bugEntry");
@@ -71,6 +74,7 @@
       }
     }
 
+    // changes the severity of the selected bug
     function changeSeverity() {
       let severity = document.getElementById("changed-severity");
       let toChange = document.getElementsByClassName("bugEntry");

@@ -1,3 +1,5 @@
+<!-- HTML template for the Manager page -->
+
 {% extends 'base.html' %}
 
 {% block title %}Manager{% endblock %}
@@ -15,7 +17,6 @@
         <form>
             <div class="form-group">
                 <label for="assignee">Bug Assignee</label>
-                <!-- to be populated from the SQL database-->
                 <select class="form-control" id="assignee">
                     {% for assignee in assignees %}
                     <option value="{{ assignee.email }}">{{ assignee.name }}</option>
@@ -45,6 +46,7 @@
 </div>
 
 <script>
+// Changes the status of the selected bug
 function changeStatus() {
     let stat = document.getElementById("changed-status");
     let toChange = document.getElementsByClassName("bugEntry");
@@ -71,6 +73,8 @@ function changeStatus() {
         });
     }
 }
+
+// Changes who the selected bug is assigned to on the table
 function assignBug(){
     let person = document.getElementById("assignee");
     let toChange = document.getElementsByClassName("bugEntry");
@@ -97,7 +101,5 @@ function assignBug(){
         window.location.reload();
     });
 }
-
-
 </script>
 {% endblock %}

@@ -14,35 +14,35 @@ def get_user_type_id(name):
 	cur = get_db().cursor()
 	return cur.execute('SELECT * FROM usertype WHERE name=?', (name,)).fetchone()['usertype_id']
 
-# gets the type of a user from the user's email
+# Gets the type of a user from the user's email
 def get_user_type_from_email(email):
 	cur = get_db().cursor()
 	user = get_user_from_email(email)
 	return get_user_type(user.usertype_id)
 
-# gets the name of a user type from its id
+# Gets the name of a user type from its id
 def get_user_type(user_type_id):
 	cur = get_db().cursor()
 	return cur.execute('SELECT * FROM usertype WHERE usertype_id=?', (user_type_id,)).fetchone()['name']
 
-# gets a user's id form its email
+# Gets a user's id form its email
 def get_user_id_from_email(email):
 	cur = get_db().cursor()
 	return cur.execute('SELECT * FROM user WHERE email=?', (email,)).fetchone()['user_id']
 
-# gets a User object from the user's email
+# Gets a User object from the user's email
 def get_user_from_email(email):
 	cur = get_db().cursor()
 	id = get_user_id_from_email(email)
 	return get_user(id)
 
-# gets a User object from its id
+# Gets a User object from its id
 def get_user(user_id):
 	cur = get_db().cursor()
 	data = cur.execute('SELECT * FROM user WHERE user_id=?', (user_id,)).fetchone()
 	return User(data['name'], data['email'], data['password'], data['usertype_id'])
 
-# gets a list of User objects with all users
+# Gets a list of User objects with all users
 def get_all_users():
 	cur = get_db().cursor()
 	rows = cur.execute('SELECT * FROM user').fetchall()
@@ -51,7 +51,7 @@ def get_all_users():
 		users.append(User(data['name'], data['email'], data['password'], data['usertype_id']))
 	return users
 
-# gets a list of User objects with all non managers
+# Gets a list of User objects with all non managers
 def get_non_managers():
 	cur = get_db().cursor()
 	rows = cur.execute('SELECT * FROM user WHERE usertype_id!=?', (get_user_type_id("Manager"),)).fetchall()

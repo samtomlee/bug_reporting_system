@@ -8,6 +8,7 @@ from app.status import get_all_statuses
 
 bp = Blueprint('manager', __name__, url_prefix='/manager')
 
+# Only loads manager page if the user id is not given
 @bp.route('/', methods=('GET',))
 def get_manage_page_none():
 	return render_template('not_found.html')

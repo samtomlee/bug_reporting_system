@@ -1,102 +1,106 @@
+<!-- HTML layout for Tester page -->
+
 {% extends 'base.html' %}
 
 {% block title %}Tester{% endblock %}
 {% block header %}Tester{% endblock %}
 
 {% block content %}
-    <div class="row">
-     <div class="col-lg-9">
-      {% include 'table.html' %}
+<div class="row">
+    <div class="col-lg-9">
+        {% include 'table.html' %}
     </div>
 
-        <div class="col-lg-3">
-          <!-- Column of Developer specific functions -->
-          <h4><b>Developer Functions</b></h4>
-          <br>
-          <form>
+    <div class="col-lg-3">
+        <!-- Column of Developer specific functions -->
+        <h4><b>Developer Functions</b></h4>
+        <br>
+        <form>
             <div class="form-group">
-              <label for="changed-severity">Severity</label>
-              <select class="form-control" id="changed-severity">
-                {% for severity in severities %}
-                <option value = "{{ severity.name }}">{{ severity.name }}</option>
-                {% endfor %}
-              </select>
+                <label for="changed-severity">Severity</label>
+                <select class="form-control" id="changed-severity">
+                    {% for severity in severities %}
+                    <option value = "{{ severity.name }}">{{ severity.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="center-block">
-              <button type="button" class="btn" onclick="changeSeverity()">Change Severity</button>
+                <button type="button" class="btn" onclick="changeSeverity()">Change Severity</button>
             </div>
-          </form>
-          <br>
-          <form>
+        </form>
+        <br>
+        <form>
             <div class="form-group">
-              <label for="changed-status">Bug Status</label>
-              <select class="form-control" id="changed-status">
-                {% for status in statuses %}
-                <option value = "{{ status.name }}">{{ status.name }}</option>
-                {% endfor %}
-              </select>
+                <label for="changed-status">Bug Status</label>
+                <select class="form-control" id="changed-status">
+                    {% for status in statuses %}
+                    <option value = "{{ status.name }}">{{ status.name }}</option>
+                    {% endfor %}
+                </select>
             </div>
             <div class="center-block">
-              <button type="button" class="btn" onclick="changeStatus()">Change Status</button>
+                <button type="button" class="btn" onclick="changeStatus()">Change Status</button>
             </div>
-          </form>
-        </div>
-      </div>
+        </form>
     </div>
+</div>
+</div>
 
 <script>
-    function changeStatus() {
-      let stat = document.getElementById("changed-status");
-      let toChange = document.getElementsByClassName("bugEntry");
-      let promises = [];
+// Changes the status of the selected bug on the table
+function changeStatus() {
+    let stat = document.getElementById("changed-status");
+    let toChange = document.getElementsByClassName("bugEntry");
+    let promises = [];
 
-      for (let elem of toChange) {
+    for (let elem of toChange) {
         if (elem.checked) {
-          promises.push(
-            fetch('/bug/update', {
-              method: "POST",
-              headers: {
-                "Content-Type": 'application/json'
-              },
-              body: JSON.stringify({
-                status: stat.value,
-                bug_id: elem.value
-              })
-            })
-          );
+            promises.push(
+                fetch('/bug/update', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify({
+                        status: stat.value,
+                        bug_id: elem.value
+                    })
+                })
+            );
         }
 
         Promise.all(promises).then(() => {
-          window.location.reload();
+            window.location.reload();
         });
-      }
     }
+}
 
-    function changeSeverity() {
-      let severity = document.getElementById("changed-severity");
-      let toChange = document.getElementsByClassName("bugEntry");
-      let promises = [];
+// Changes the severity level of the selected bug on the table
+function changeSeverity() {
+    let severity = document.getElementById("changed-severity");
+    let toChange = document.getElementsByClassName("bugEntry");
+    let promises = [];
 
-      for (let elem of toChange) {
+    for (let elem of toChange) {
         if (elem.checked) {
-          promises.push(
-            fetch('/bug/update', {
-              method: "POST",
-              headers: {
-                "Content-Type": 'application/json'
-              },
-              body: JSON.stringify({
-                severity: severity.value,
-                bug_id: elem.value
-              })
-            })
-          );
+            promises.push(
+                fetch('/bug/update', {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": 'application/json'
+                    },
+                    body: JSON.stringify({
+                        severity: severity.value,
+                        bug_id: elem.value
+                    })
+                })
+            );
         }
 
         Promise.all(promises).then(() => {
-          window.location.reload();
+            window.location.reload();
         });
-      }
     }
-  </script>
+}
+</script>
 {% endblock %}

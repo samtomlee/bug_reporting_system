@@ -6,11 +6,10 @@ import os
 from flask import Flask, redirect, url_for, request, render_template, session
 from . import bug
 import flask_login
-# import hashlib
 
-# create_app is called to initialise the application. It loads configuration information,
-# gives the app database information, and registers all of the web pages. It also
-# sets up small webpages that need little code like the home page, login and logout.
+# Create_app is called to initialise the application. It loads configuration information,
+# Gives the app database information, and registers all of the web pages. It also
+# Sets up small webpages that need little code like the home page, login and logout.
 
 # Parameters:
 # 	test_config (defaults to None) - if not None test_config will be used in place of a config file
@@ -24,13 +23,13 @@ def create_app(test_config=None):
 	)
 
 	if test_config is None:
-		# load the instance config, if it exists, when not testing
+		# Load the instance config, if it exists, when not testing
 		app.config.from_pyfile('config.py', silent=True)
 	else:
-		# load the test config if passed in
+		# Load the test config if passed in
 		app.config.from_mapping(test_config)
 
-	# ensure the instance folder exists
+	# Ensure the instance folder exists
 	try:
 		os.makedirs(app.instance_path)
 	except OSError:
@@ -42,7 +41,6 @@ def create_app(test_config=None):
 	@app.route('/report')
 	def get_report_form():
 		return render_template('form.html')
-
 
 	@app.route('/')
 	def get_home():
@@ -71,12 +69,12 @@ def create_app(test_config=None):
 	from . import history
 	app.register_blueprint(history.bp)
 
-	# login functionality
+	# Login functionality
 
 	login_manager = flask_login.LoginManager()
 	login_manager.init_app(app)
 
-	# login page
+	# Login page
 	# If the request is a POST request then the user
 	# is trying to authenticate, if it is a GET request
 	# then just provide the login page
@@ -97,8 +95,8 @@ def create_app(test_config=None):
 				return redirect(nextUrl)
 		return render_template('login.html', error=error)
 
-	# logout page
-	# logs out the user and redirects to the bug report page
+	# Logout page
+	# Logs out the user and redirects to the bug report page
 	@app.route('/logout')
 	def logout():
 		session.pop('logged_in', None)

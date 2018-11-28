@@ -1,5 +1,7 @@
+<!-- HTML template for the bug report form page -->
+
 {% extends 'base.html' %}
-  
+
 {% block title %}Bug Report Form{% endblock %}
 
 {% block header %}Bug Report Form{% endblock %}
@@ -63,6 +65,7 @@
 </form>
 
   <script>
+    // Submits the bug to the database
     function submitBug(){
       var contact = document.getElementById('email').value;
       var brief = document.getElementById("bugBrief").value;
@@ -75,7 +78,7 @@
       }
       var desc = document.getElementById("bugDesc").value;
       var form = document.getElementById('report-form');
-      
+
       if (form.checkValidity() === true) {
         fetch('/bug/create', {
           method: "POST",
@@ -91,7 +94,7 @@
         });
       }
     }
-    // valid inputs check
+    // Valid inputs check
     (function() {
     'use strict';
     window.addEventListener('load', function() {

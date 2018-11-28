@@ -1,3 +1,5 @@
+<!-- History page template -->
+
 {% extends 'base.html' %}
 
 {% block title %}Bug History{% endblock %}
@@ -70,6 +72,8 @@
         </div>
 
         <script>
+        // Enables the modal to be accessed for additional information
+        // on each bug when clicked on for the table
         $(document).ready(function () {
             $('.bug-row').on('click', function(e) {
                 var bugRow = $(this);
@@ -87,6 +91,7 @@
             $("#bugs").DataTable()
         });
 
+        // Gets all the bugs that match the filter (searching)
         function getBugs(filters) {
             fetch("{{ url_for('bug.request_bug')}}", {
                 method: 'POST',
@@ -99,6 +104,8 @@
                 return res;
             });
         }
+
+        // Generates the report for the active bugs
         function generateReport() {
             var prtContent = document.getElementById("report");
             var WinPrint = window.open('', '', 'left=0,top=0,width=700,height=450,toolbar=0,scrollbars=0,status=0');

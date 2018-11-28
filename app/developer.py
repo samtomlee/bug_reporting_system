@@ -7,6 +7,7 @@ from app.severity import get_all_severities
 
 bp = Blueprint('dev', __name__, url_prefix='/developer')
 
+# Only loads the developer page if there is an id provided
 @bp.route('/', methods=('GET',))
 def get_dev_page_none():
 	return render_template('not_found.html')
